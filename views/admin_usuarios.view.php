@@ -7,22 +7,6 @@
 </head>
 <body>
     <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
-
-    <div class="header">
-        <h1>Práctica 05</h1>
-        <h2>Basic Server Side Programming</h2>
-        <h4>Bienvenido <?=$USUARIO_NOMBRE_COMPLETO?></h4>
-        <h5>Cantidad Visitas: <?=$cantidadVisitas?></h5>
-
-        <!-- boton para actualizar usuario -->
-        <?php if (isset($_SESSION['username'])) { ?>
-            <!-- actualizar info del perfil -->
-            <a href="<?= APP_ROOT ?>actualizar_perfil.php" class="btn">Actualizar Perfil</a>
-            <!-- actualizar contrasena -->
-            <a href="<?= APP_ROOT ?>cambiar_password.php" class="btn">Actualizar Contraseña</a>
-        <?php } ?>
-    </div>
-
     <?php require APP_PATH . "html_parts/menu.php"; ?>
 
     <div class="row">
@@ -78,10 +62,39 @@
                     <button onclick="toggleAdmin(${user.id})">${user.es_admin ? 'Quitar Admin' : 'Hacer Admin'}</button>
                     <button onclick="resetPassword(${user.id})">Reset Password</button>
                     <button onclick="toggleActive(${user.id})">${user.activo ? 'Desactivar' : 'Activar'}</button>
+                    <button onclick="deleteUser(${user.id})">Eliminar</button>
                 </td>
             `;
             tbody.appendChild(tr);
         });
+    }
+
+    function toggleAdmin(userId) {
+        fetch('<?= APP_ROOT ?>admin/toggle_admin.php?id=' + userId)
+            .then(response => response.json())
+            .then(data => searchUsers());
+    }
+
+    function resetPassword(userId) {
+        if(confirm('¿Está seguro de restablecer la contraseña?')) {
+            fetch('<?= APP_ROOT ?>admin/reset_password.php?id=' + userId)
+                .then(response => response.json())
+                .then(data => searchUsers());
+        }
+    }
+
+    function toggleActive(userId) {
+        fetch('<?= APP_ROOT ?>admin/toggle_active.php?id=' + userId)
+            .then(response => response.json())
+            .then(data => searchUsers());
+    }
+
+    function deleteUser(userId) {
+        if(confirm('¿Está seguro que desea eliminar este usuario?')) {
+            fetch('<?= APP_ROOT ?>admin/delete_user.php?id=' + userId)
+                .then(response => response.json())
+                .then(data => searchUsers());
+        }
     }
 
     // Cargar usuarios al iniciar

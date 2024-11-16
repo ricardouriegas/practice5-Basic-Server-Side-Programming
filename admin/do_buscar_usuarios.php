@@ -18,7 +18,7 @@ try {
               FROM usuarios 
               WHERE (username LIKE ? OR nombre LIKE ? OR apellidos LIKE ?)
               ORDER BY fecha_hora_registro DESC 
-              LIMIT 100";
+              LIMIT 100"; // nada mas deben ser 100 usuarios
     
     $searchTerm = "%$search%";
     $stmt = $db->prepare($query);
