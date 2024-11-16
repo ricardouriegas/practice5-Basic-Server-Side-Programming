@@ -70,32 +70,35 @@
     }
 
     function toggleAdmin(userId) {
-        fetch('<?= APP_ROOT ?>admin/toggle_admin.php?id=' + userId)
+    fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=toggleAdmin&id=${userId}`)
+        .then(response => response.json())
+        .then(data => searchUsers());
+}
+
+function resetPassword(userId) {
+    if(confirm('¿Está seguro de restablecer la contraseña?')) {
+        fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=resetPassword&id=${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensaje);
+                searchUsers();
+            });
+    }
+}
+
+function toggleActive(userId) {
+    fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=toggleActive&id=${userId}`)
+        .then(response => response.json())
+        .then(data => searchUsers());
+}
+
+function deleteUser(userId) {
+    if(confirm('¿Está seguro que desea eliminar este usuario?')) {
+        fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=delete&id=${userId}`)
             .then(response => response.json())
             .then(data => searchUsers());
     }
-
-    function resetPassword(userId) {
-        if(confirm('¿Está seguro de restablecer la contraseña?')) {
-            fetch('<?= APP_ROOT ?>admin/reset_password.php?id=' + userId)
-                .then(response => response.json())
-                .then(data => searchUsers());
-        }
-    }
-
-    function toggleActive(userId) {
-        fetch('<?= APP_ROOT ?>admin/toggle_active.php?id=' + userId)
-            .then(response => response.json())
-            .then(data => searchUsers());
-    }
-
-    function deleteUser(userId) {
-        if(confirm('¿Está seguro que desea eliminar este usuario?')) {
-            fetch('<?= APP_ROOT ?>admin/delete_user.php?id=' + userId)
-                .then(response => response.json())
-                .then(data => searchUsers());
-        }
-    }
+}
 
     // Cargar usuarios al iniciar
     window.onload = () => searchUsers();

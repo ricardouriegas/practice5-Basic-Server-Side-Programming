@@ -17,12 +17,13 @@ try {
     $query = "SELECT id, username, nombre, apellidos, es_admin, activo 
               FROM usuarios 
               WHERE (username LIKE ? OR nombre LIKE ? OR apellidos LIKE ?)
+              AND id != ?
               ORDER BY fecha_hora_registro DESC 
               LIMIT 100"; // nada mas deben ser 100 usuarios
     
     $searchTerm = "%$search%";
     $stmt = $db->prepare($query);
-    $stmt->execute([$searchTerm, $searchTerm, $searchTerm]);
+    $stmt->execute([$searchTerm, $searchTerm, $searchTerm, $USUARIO_ID]);
     
     echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 } catch (Exception $e) {

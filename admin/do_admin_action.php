@@ -4,22 +4,33 @@ header('Content-Type: application/json');
 require "../config.php";
 require_once APP_PATH . "sesion_requerida.php";
 
+// Verify admin access
 if (!$USUARIO_ES_ADMIN) {
     echo json_encode(["error" => "Acceso denegado"]);
     exit();
 }
 
-require_once APP_PATH . "data_access/db.php";
-
 try {
+    // Validate parameters
+    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+    $userId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+    
+    if (!$userId || !$action) {
+        throw new Exception("Parámetros inválidos");
+    }
+
+    // Prevent self-modification for certain actions
+    if (($action == 'toggleActive' || $action == 'delete') && $userId == $USUARIO_ID) {
+        throw new Exception("No puede modificarse a sí mismo");
+    }
+
+    require_once APP_PATH . "data_access/db.php";
     $db = getDbConnection();
-    $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
-    $userId = filter_input(INPUT_POST, 'userId', FILTER_VALIDATE_INT);
 
     switch ($action) {
         case 'toggleAdmin':
             $stmt = $db->prepare("UPDATE usuarios SET es_admin = NOT es_admin WHERE id = ?");
-            $stmt->execute([$userId]);
+            $mensaje = "Estado de administrador actualizado";
             break;
             
         case 'resetPassword':
@@ -29,15 +40,44 @@ try {
             
             $stmt = $db->prepare("UPDATE usuarios SET password_encrypted = ?, password_salt = ? WHERE id = ?");
             $stmt->execute([$passwordEncrypted, $salt, $userId]);
-            break;
+            echo json_encode([
+                "success" => true,
+                "mensaje" => "Contraseña restablecida a: $defaultPass"
+            ]);
+            exit();
             
         case 'toggleActive':
             $stmt = $db->prepare("UPDATE usuarios SET activo = NOT activo WHERE id = ?");
-            $stmt->execute([$userId]);
+            $mensaje = "Estado activo actualizado";
             break;
+
+        case 'delete':
+            $stmt = $db->prepare("DELETE FROM usuarios WHERE id = ?");
+            $mensaje = "Usuario eliminado correctamente";
+            break;
+            
+        default:
+            throw new Exception("Acción no válida");
     }
-    
-    echo json_encode(["success" => true]);
+
+    // Execute statement for non-password actions
+    if ($action != 'resetPassword') {
+        $stmt->execute([$userId]);
+    }
+
+    // Verify if user exists and was updated
+    if ($stmt->rowCount() === 0) {
+        throw new Exception("Usuario no encontrado");
+    }
+
+    echo json_encode([
+        "success" => true,
+        "mensaje" => $mensaje
+    ]);
+
 } catch (Exception $e) {
-    echo json_encode(["error" => "Error al ejecutar la acción"]);
+    http_response_code(400);
+    echo json_encode([
+        "error" => $e->getMessage()
+    ]);
 }
