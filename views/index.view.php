@@ -18,14 +18,6 @@
         <h2>Basic Server Side Programming</h2>
         <h4>Bienvenido <?=$USUARIO_NOMBRE_COMPLETO?></h4>
         <h5>Cantidad Visitas: <?=$cantidadVisitas?></h5>
-
-        <!-- boton para actualizar usuario -->
-        <?php if (isset($_SESSION['username'])) { ?>
-            <!-- actualizar info del perfil -->
-            <a href="<?= APP_ROOT ?>actualizar_perfil.php" class="btn">Actualizar Perfil</a>
-            <!-- actualizar contrasena -->
-            <a href="<?= APP_ROOT ?>cambiar_password.php" class="btn">Actualizar Contraseña</a>
-        <?php } ?>
     </div>
       
     <?php require APP_PATH . "html_parts/menu.php"; ?>
