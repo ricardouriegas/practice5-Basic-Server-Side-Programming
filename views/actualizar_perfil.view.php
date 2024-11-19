@@ -59,6 +59,16 @@
         var resultado = document.getElementById('resultado');
         resultado.innerHTML = ''; // Limpiar mensajes anteriores
 
+        var nombre = document.getElementById('nombre').value.trim();
+        var apellidos = document.getElementById('apellidos').value.trim();
+        var genero = document.getElementById('genero').value.trim();
+        var fechaNacimiento = document.getElementById('fecha_nacimiento').value.trim();
+
+        if (!nombre && !apellidos && !genero && !fechaNacimiento) {
+            resultado.innerHTML = '<p style="color:red;">Por favor, complete al menos un campo.</p>';
+            return;
+        }
+
         var formData = new FormData(this);
 
         fetch('<?= APP_ROOT ?>do_actualizar_perfil.php', {
@@ -76,7 +86,7 @@
             resultado.innerHTML = '<p style="color:red;">Error de conexión: ' + error + '</p>';
         });
     });
-</script>
+    </script>
 
 </body>
 </html>
