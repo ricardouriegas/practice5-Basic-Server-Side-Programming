@@ -10,8 +10,8 @@
         <a href="<?=$APP_ROOT . "login.php"?>">Login</a>
     <?php endif; ?>
     <?php
-    // por alguna razon no me jala en el session.php saber si es  admin el usuario, por lo que mejor hago una consulta a la BD
-        require APP_PATH . "data_access/db.php";
+        // por alguna razon no me jala en el session.php saber si es  admin el usuario, por lo que mejor hago una consulta a la BD
+        require_once APP_PATH . "data_access/db.php";
         
         $db = getDbConnection();
         $stmt = $db->prepare("SELECT * FROM usuarios WHERE id = ?");

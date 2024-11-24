@@ -1,70 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="<?=APP_ROOT?>css/style.css" rel="stylesheet" type="text/css" /> 
-    <title><?php echo $tituloPagina; ?></title>
-    <script src="<?=APP_ROOT?>js/config.js"></script>
+    <meta charset="UTF-8">
+    <title><?= htmlspecialchars($tituloPagina) ?></title>
+    <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-
-    <?php require APP_PATH . "html_parts/info_usuario.php" ?>
-    <?php require_once APP_PATH . "session.php"; ?>
-
-    <div class="header">
-        <h1>Práctica 05</h1>
-        <h2>Basic Server Side Programming</h2>
-        <h4>Bienvenido <?=$USUARIO_NOMBRE_COMPLETO?></h4>
-        <h5>Cantidad Visitas: <?=$cantidadVisitas?></h5>
-    </div>
-      
+<body class="bg-gray-100 text-gray-800">
+    <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
+    <script>console.log("<?= $USUARIO_ID ?>");</script>
     <?php require APP_PATH . "html_parts/menu.php"; ?>
-      
-    <div class="row">
 
-        <div class="leftcolumn">
+    <div class="container mx-auto p-4">
+        <h2 class="text-2xl font-bold mb-4"><?= htmlspecialchars($tituloPagina) ?></h2>
 
-            <div class="card">
-                <h2>Creación Dinámica de HTML con PHP</h2>
-                <h5>Ciclos para recorrer arrays, <?php echo $hoy->format("d/m/Y"); ?></h5>
-                <p>Ciclo FOR para recorrer un array e ir imprimiendo el resultado.</p>
-                <ul>
-                    <?php for ($i = 0; $i < count($array01); $i++) { ?> 
-                        <li><?=$array01[$i]?></li>
-                    <?php } ?>
-                </ul>
-                 <p>Ciclo FOREACH para recorrer todos los elementos de un array</p>
-                <ul>
-                <?php foreach ($array01 as $a) { ?>
-                    <li><?=$a?></li>
-                <?php } ?>
-                </ul>
-                <p>Listado desde otro archivo. Podermos mandar llamar otro archivo PHP y lo que nos de de resultado imprimirlo aquí.</p>
-                <?php include APP_PATH . "html_parts/listado.php"; ?>
-                <p>
-                    Listado de artículos. Aquí creamos links dimámicos según el array de arrays 
-                    asociativos. También aquí se envían datos mediante parámetros URL a la
-                    página (ruta) articulo.php
-                </p>
-                <ul>
-                    <?php foreach ($articulos as $a) { ?>
-                        <li><a href="<?=APP_ROOT?>articulo.php?id=<?=$a["id"]?>&titulo=<?=urlencode($a["titulo"])?>"><?=$a["titulo"]?></a></li>
-                    <?php } ?>
-                </ul>
-            </div>
+        <!-- Formulario de subida de archivos -->
+        <form id="uploadForm" enctype="multipart/form-data" class="mb-4 p-4 bg-white shadow-md rounded">
+            <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.gif" class="mb-2 p-2 border rounded" />
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Subir Archivo</button>
+        </form>
 
-        </div>  <!-- End left column -->
+        <!-- Filtros de año y mes -->
+        <form method="get" action="" class="mb-4 p-4 bg-white shadow-md rounded">
+            <label for="year" class="block mb-2">Año:</label>
+            <select name="year" id="year" class="mb-2 p-2 border rounded">
+                <?php for ($y = date('Y'); $y >= date('Y') - 5; $y--): ?>
+                    <option value="<?= $y ?>" <?= $y == $year ? 'selected' : '' ?>><?= $y ?></option>
+                <?php endfor; ?>
+            </select>
 
-        <!-- Incluimos la parte derecha de la página, que está procesada en otro archivo -->
-        <?php require APP_PATH . "html_parts/page_right_column.php"; ?>
+            <label for="month" class="block mb-2">Mes:</label>
+            <select name="month" id="month" class="mb-2 p-2 border rounded">
+                <?php for ($m = 1; $m <= 12; $m++): ?>
+                    <option value="<?= $m ?>" <?= $m == $month ? 'selected' : '' ?>><?= $m ?></option>
+                <?php endfor; ?>
+            </select>
 
-    </div>  <!-- End row-->
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Filtrar</button>
+        </form>
 
-    <div class="footer">
-        <h2>ITI - Programación Web</h2>
+        <!-- Tabla de archivos -->
+        <table class="min-w-full bg-white shadow-md rounded">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b">Nombre del Archivo</th>
+                    <th class="py-2 px-4 border-b">Fecha de Subida</th>
+                    <th class="py-2 px-4 border-b">Tamaño (KB)</th>
+                    <th class="py-2 px-4 border-b">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($archivos as $archivo): ?>
+                <tr>
+                    <td class="py-2 px-4 border-b"><a href="archivo.php?id=<?= $archivo['id'] ?>" target="_blank" class="text-blue-500"><?= htmlspecialchars($archivo['nombre_archivo_original']) ?></a></td>
+                    <td class="py-2 px-4 border-b"><?= htmlspecialchars($archivo['fecha_subida']) ?></td>
+                    <td class="py-2 px-4 border-b"><?= htmlspecialchars($archivo['tamanio_kb']) ?></td>
+                    <td class="py-2 px-4 border-b">
+                        <button onclick="togglePublic(<?= $archivo['id'] ?>)" class="bg-green-500 text-white px-2 py-1 rounded">
+                            <?= $archivo['es_publico'] ? 'Hacer Privado' : 'Hacer Público' ?>
+                        </button>
+                        <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded">Eliminar</button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 
+    <script>
+    // Script para subir archivos vía AJAX
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var fileInput = document.getElementById('fileInput');
+        if (fileInput.files.length === 0) {
+            alert('Seleccione un archivo para subir.');
+            return;
+        }
+        var formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+        fetch('do_upload.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(result => {
+            alert(result);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+    // Función para hacer público/privado un archivo
+    function togglePublic(id) {
+        fetch('toggle_public.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: id })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Función para eliminar un archivo
+    function deleteFile(id) {
+        if (!confirm('¿Está seguro de que desea eliminar este archivo?')) return;
+        fetch('delete_file.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: id })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    </script>
 </body>
 </html>

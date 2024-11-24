@@ -5,7 +5,7 @@ require_once "config.php";
 require APP_PATH . "sesion_requerida.php";
 
 // Diferentes tipos de variables
-$tituloPagina = "Práctica 05 - Server Side Programming";  // variable string
+// $tituloPagina = "Práctica 05 - Server Side Programming";  // variable string
 $hoy = new DateTime("now");  // variable DateTime (object)
 $numeroEnter = 100;  // variable int
 $numeroDecimal = 3.14159;  // variable float
@@ -38,6 +38,21 @@ setcookie(
     (string)$cantidadVisitas,  // valor de la cookie
     $expira   // cuándo exipira (fecha UNIX)
 );
+
+require APP_PATH . "data_access/db.php";
+
+$tituloPagina = "Mis Archivos";
+
+$db = getDbConnection();
+
+$year = $hoy->format("Y");
+$month = $hoy->format("m");
+
+// Obtener archivos del usuario para el mes y año especificados
+$stmt = $db->prepare("SELECT * FROM archivos WHERE usuario_subio_id = ? AND YEAR(fecha_subido) = ? AND MONTH(fecha_subido) = ?");
+$stmt->execute([$USUARIO_ID, $year, $month]);
+$archivos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 // Se regresa el view  del index  :)
 require APP_PATH . "views/index.view.php";
