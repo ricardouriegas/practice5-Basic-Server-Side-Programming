@@ -50,11 +50,19 @@
             </thead>
             <tbody>
                 <?php foreach ($archivos as $archivo): ?>
-                <tr>
+                <?php
+                    $estaBorrado = !is_null($archivo['fecha_borrado']);
+                    $claseFila = $estaBorrado ? 'bg-gray-300 text-gray-500' : '';
+                ?>
+                <tr class="<?= $claseFila ?>">
                     <td class="py-2 px-4 border-b">
-                        <a href="archivo.php?id=<?= $archivo['id'] ?>" target="_blank" class="text-blue-500">
+                        <?php if (!$estaBorrado): ?>
+                            <a href="archivo.php?id=<?= $archivo['id'] ?>" target="_blank" class="text-blue-500">
+                                <?= htmlspecialchars($archivo['nombre_archivo']) ?>
+                            </a>
+                        <?php else: ?>
                             <?= htmlspecialchars($archivo['nombre_archivo']) ?>
-                        </a>
+                        <?php endif; ?>
                     </td>
                     <td class="py-2 px-4 border-b">
                         <?= htmlspecialchars($archivo['fecha_subido']) ?>
@@ -63,10 +71,10 @@
                         <?= number_format($archivo['tamaño'] / 1024, 2) ?> KB
                     </td>
                     <td class="py-2 px-4 border-b">
-                        <button onclick="togglePublic(<?= $archivo['id'] ?>)" class="bg-green-500 text-white px-2 py-1 rounded">
+                        <button onclick="togglePublic(<?= $archivo['id'] ?>)" class="bg-blue-500 text-white px-2 py-1 rounded" <?= $estaBorrado ? 'disabled' : '' ?>>
                             <?= $archivo['es_publico'] ? 'Hacer Privado' : 'Hacer Público' ?>
                         </button>
-                        <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded">
+                        <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded" <?= $estaBorrado ? 'disabled' : '' ?>>
                             Eliminar
                         </button>
                     </td>
@@ -110,13 +118,21 @@
             },
             body: JSON.stringify({ id: id })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    throw new Error(errorData.error || 'Error en la solicitud');
+                });
+            }
+            return response.json();
+        })
         .then(data => {
             alert(data.message);
             location.reload();
         })
         .catch(error => {
             console.error('Error:', error);
+            alert('Error: ' + error.message);
         });
     }
 
