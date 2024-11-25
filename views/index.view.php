@@ -8,7 +8,6 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
     <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
-    <script>console.log("<?= $USUARIO_ID ?>");</script>
     <?php require APP_PATH . "html_parts/menu.php"; ?>
 
     <div class="container mx-auto p-4">
@@ -52,14 +51,24 @@
             <tbody>
                 <?php foreach ($archivos as $archivo): ?>
                 <tr>
-                    <td class="py-2 px-4 border-b"><a href="archivo.php?id=<?= $archivo['id'] ?>" target="_blank" class="text-blue-500"><?= htmlspecialchars($archivo['nombre_archivo_original']) ?></a></td>
-                    <td class="py-2 px-4 border-b"><?= htmlspecialchars($archivo['fecha_subida']) ?></td>
-                    <td class="py-2 px-4 border-b"><?= htmlspecialchars($archivo['tamanio_kb']) ?></td>
+                    <td class="py-2 px-4 border-b">
+                        <a href="archivo.php?id=<?= $archivo['id'] ?>" target="_blank" class="text-blue-500">
+                            <?= htmlspecialchars($archivo['nombre_archivo']) ?>
+                        </a>
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        <?= htmlspecialchars($archivo['fecha_subido']) ?>
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        <?= number_format($archivo['tamaño'] / 1024, 2) ?> KB
+                    </td>
                     <td class="py-2 px-4 border-b">
                         <button onclick="togglePublic(<?= $archivo['id'] ?>)" class="bg-green-500 text-white px-2 py-1 rounded">
                             <?= $archivo['es_publico'] ? 'Hacer Privado' : 'Hacer Público' ?>
                         </button>
-                        <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded">Eliminar</button>
+                        <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded">
+                            Eliminar
+                        </button>
                     </td>
                 </tr>
                 <?php endforeach; ?>

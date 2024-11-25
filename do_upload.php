@@ -3,40 +3,115 @@ require "config.php";
 require APP_PATH . "sesion_requerida.php";
 require APP_PATH . "data_access/db.php";
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
-    $file = $_FILES['file'];
+// Habilitar reporte de errores
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-    // Tipos de archivos permitidos
-    $allowedTypes = ['pdf', 'jpg', 'jpeg', 'png', 'gif'];
-    $fileExt = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+try {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
+        $file = $_FILES['file'];
 
-    if (in_array($fileExt, $allowedTypes)) {
-        // Generar nombre aleatorio para el archivo
-        $randomName = bin2hex(random_bytes(16)) . '.' . $fileExt;
-        $uploadPath = DIR_UPLOAD . $randomName;
+        // Verificar si hubo error en la carga
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            echo "Error en la carga del archivo: " . $file['error'];
+            exit;
+        }
 
-        // Mover el archivo a la carpeta de subida
-        if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
-            // Insertar registro en la tabla 'archivos'
-            $db = getDbConnection();
-            $stmt = $db->prepare("INSERT INTO archivos (id_usuario, nombre_archivo_original, nombre_archivo_guardado, tamanio_kb, fecha_subida, es_publico, cant_descargas) VALUES (?, ?, ?, ?, NOW(), 0, 0)");
-            $tamanio_kb = round($file['size'] / 1024, 2);
-            $stmt->execute([$USUARIO_ID, $file['name'], $randomName, $tamanio_kb]);
+        // Tipos de archivos permitidos
+        $allowedTypes = ['pdf', 'jpg', 'jpeg', 'png', 'gif'];
+        $fileExt = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-            // Obtener el ID del archivo insertado
-            $id_archivo = $db->lastInsertId();
+        if (in_array($fileExt, $allowedTypes)) {
+            // Generar nombre aleatorio para el archivo
+            $maxExtensionLength = strlen($fileExt); // Obtener la longitud de la extensión actual
+            $maxRandomNameLength = 64 - 1 - $maxExtensionLength; // 1 es por el punto
+            $bytesNeeded = floor($maxRandomNameLength / 2);
 
-            // Registrar acción en 'archivos_log_general'
-            $stmt = $db->prepare("INSERT INTO archivos_log_general (id_usuario, id_archivo, accion, fecha_hora) VALUES (?, ?, 'subido', NOW())");
-            $stmt->execute([$USUARIO_ID, $id_archivo]);
+            $randomName = bin2hex(random_bytes($bytesNeeded));
+            $nombre_archivo_guardado = $randomName . '.' . $fileExt;
+            $uploadPath = DIR_UPLOAD . $nombre_archivo_guardado;
 
-            echo "Archivo subido exitosamente.";
+            // Mover el archivo a la carpeta de subida
+            if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
+                // Calcular hash SHA-256 del archivo
+                $hash_sha256 = hash_file('sha256', $uploadPath);
+
+                // Obtener tamaño del archivo en bytes
+                $tamaño = filesize($uploadPath);
+
+                // Fecha y hora actual
+                $fecha_subido = date('Y-m-d H:i:s');
+
+                // Obtener la dirección IP del usuario
+                $ip_usuario = $_SERVER['REMOTE_ADDR'];
+
+                // Insertar registro en la tabla 'archivos'
+                $db = getDbConnection();
+
+                // Establecer el modo de error de PDO para lanzar excepciones
+                $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $stmt = $db->prepare("INSERT INTO archivos (
+                    descripcion,
+                    nombre_archivo,
+                    extension,
+                    nombre_archivo_guardado,
+                    `tamaño`,
+                    hash_sha256,
+                    fecha_subido,
+                    usuario_subio_id,
+                    cant_descargas,
+                    es_publico
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, 0)");
+
+                $descripcion = NULL; // Puedes obtener la descripción del formulario si lo deseas
+
+                $stmt->execute([
+                    $descripcion,
+                    $file['name'],
+                    $fileExt,
+                    $nombre_archivo_guardado,
+                    $tamaño,
+                    $hash_sha256,
+                    $fecha_subido,
+                    $USUARIO_ID
+                ]);
+
+                // Obtener el ID del archivo insertado
+                $archivo_id = $db->lastInsertId();
+
+                // Registrar acción en 'archivos_log_general'
+                $stmt = $db->prepare("INSERT INTO archivos_log_general (
+                    archivo_id,
+                    usuario_id,
+                    fecha_hora,
+                    accion_realizada,
+                    ip_realiza_operacion
+                ) VALUES (?, ?, ?, ?, ?)");
+
+                $accion_realizada = 'subido';
+
+                $stmt->execute([
+                    $archivo_id,
+                    $USUARIO_ID,
+                    $fecha_subido,
+                    $accion_realizada,
+                    $ip_usuario
+                ]);
+
+                echo "Archivo subido exitosamente.";
+            } else {
+                echo "Error al mover el archivo.";
+                error_log("Error al mover el archivo de " . $file['tmp_name'] . " a " . $uploadPath);
+            }
         } else {
-            echo "Error al mover el archivo.";
+            echo "Tipo de archivo no permitido.";
         }
     } else {
-        echo "Tipo de archivo no permitido.";
+        echo "No se ha recibido ningún archivo.";
     }
-} else {
-    echo "No se ha recibido ningún archivo.";
+} catch (PDOException $e) {
+    echo "Error en la base de datos: " . $e->getMessage();
+    error_log("Error de PDO: " . $e->getMessage());
 }
