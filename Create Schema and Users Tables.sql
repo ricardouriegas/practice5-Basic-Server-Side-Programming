@@ -50,3 +50,12 @@ CREATE TABLE `archivos_log_general` (
     `ip_realiza_operacion` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
     PRIMARY KEY(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE favoritos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    archivo_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    fecha_agregado DATETIME NOT NULL,
+    FOREIGN KEY (archivo_id) REFERENCES archivos(id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
