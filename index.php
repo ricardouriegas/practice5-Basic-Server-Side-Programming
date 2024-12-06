@@ -13,8 +13,8 @@ $tituloPagina = "Mis Archivos";
 $db = getDbConnection();
 
 // Obtener el año y mes actual o desde parámetros GET
-$year = isset($_GET['year']) ? intval($_GET['year']) : $hoy->format("Y");
-$month = isset($_GET['month']) ? intval($_GET['month']) : $hoy->format("m");
+$year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
+$month = isset($_GET['month']) ? intval($_GET['month']) : date('m');
 
 // Obtener archivos del usuario filtrados por año y mes
 $stmt = $db->prepare("

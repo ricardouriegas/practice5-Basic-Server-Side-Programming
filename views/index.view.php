@@ -1,3 +1,11 @@
+<?php
+function esFavorito($archivo_id, $usuario_id) {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM favoritos WHERE archivo_id = ? AND usuario_id = ?");
+    $stmt->execute([$archivo_id, $usuario_id]);
+    return $stmt->fetch() ? true : false;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -78,6 +86,12 @@
                             Eliminar
                         </button>
                     </td>
+                    <td class="py-2 px-4 border-b">
+                        <!-- Otros botones -->
+                        <button onclick="toggleFavorite(<?= $archivo['id'] ?>)" class="bg-yellow-500 text-white px-2 py-1 rounded" <?= $estaBorrado ? 'disabled' : '' ?>>
+                            <?= esFavorito($archivo['id'], $USUARIO_ID) ? 'Quitar Favorito' : 'Marcar Favorito' ?>
+                        </button>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -153,6 +167,25 @@
         })
         .catch(error => {
             console.error('Error:', error);
+        });
+    }
+
+    function toggleFavorite(id) {
+        fetch('toggle_favorite.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: id })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al cambiar favorito.');
         });
     }
     </script>
