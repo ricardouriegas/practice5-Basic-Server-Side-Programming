@@ -24,8 +24,8 @@ try {
 
         if (in_array($fileExt, $allowedTypes)) {
             // Generar nombre aleatorio para el archivo
-            $maxExtensionLength = strlen($fileExt); // Obtener la longitud de la extensión actual
-            $maxRandomNameLength = 64 - 1 - $maxExtensionLength; // 1 es por el punto
+            $maxExtensionLength = strlen($fileExt);
+            $maxRandomNameLength = 64 - 1 - $maxExtensionLength;
             $bytesNeeded = floor($maxRandomNameLength / 2);
 
             $randomName = bin2hex(random_bytes($bytesNeeded));
@@ -46,6 +46,9 @@ try {
                 // Obtener la dirección IP del usuario
                 $ip_usuario = $_SERVER['REMOTE_ADDR'];
 
+                // Obtener la descripción si está presente
+                $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : null;
+
                 // Insertar registro en la tabla 'archivos'
                 $db = getDbConnection();
 
@@ -65,10 +68,8 @@ try {
                     es_publico
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, 0)");
 
-                $descripcion = NULL; // Puedes obtener la descripción del formulario si lo deseas
-
                 $stmt->execute([
-                    $descripcion,
+                    $descripcion, // Aquí se utiliza la descripción proporcionada por el usuario
                     $file['name'],
                     $fileExt,
                     $nombre_archivo_guardado,

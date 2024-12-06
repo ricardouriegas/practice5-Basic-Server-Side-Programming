@@ -23,7 +23,13 @@ function esFavorito($archivo_id, $usuario_id) {
 
         <!-- Formulario de subida de archivos -->
         <form id="uploadForm" enctype="multipart/form-data" class="mb-4 p-4 bg-white shadow-md rounded">
-            <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.gif" class="mb-2 p-2 border rounded" />
+            <!-- Campo para seleccionar el archivo -->
+            <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.gif" class="mb-2 p-2 border rounded" required />
+
+            <!-- Nuevo campo para la descripción (opcional) -->
+            <textarea name="descripcion" id="descripcionInput" placeholder="Descripción (opcional)" class="mb-2 p-2 border rounded w-full"></textarea>
+
+            <!-- Botón de subir -->
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Subir Archivo</button>
         </form>
 
@@ -51,6 +57,7 @@ function esFavorito($archivo_id, $usuario_id) {
             <thead>
                 <tr>
                     <th class="py-2 px-4 border-b">Nombre del Archivo</th>
+                    <th class="py-2 px-4 border-b">Descripción</th>
                     <th class="py-2 px-4 border-b">Fecha de Subida</th>
                     <th class="py-2 px-4 border-b">Tamaño (KB)</th>
                     <th class="py-2 px-4 border-b">Acciones</th>
@@ -73,6 +80,9 @@ function esFavorito($archivo_id, $usuario_id) {
                         <?php endif; ?>
                     </td>
                     <td class="py-2 px-4 border-b">
+                        <?= htmlspecialchars($archivo['descripcion'] ?? '') ?>
+                    </td>
+                    <td class="py-2 px-4 border-b">
                         <?= htmlspecialchars($archivo['fecha_subido']) ?>
                     </td>
                     <td class="py-2 px-4 border-b">
@@ -85,9 +95,6 @@ function esFavorito($archivo_id, $usuario_id) {
                         <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded" <?= $estaBorrado ? 'disabled' : '' ?>>
                             Eliminar
                         </button>
-                    </td>
-                    <td class="py-2 px-4 border-b">
-                        <!-- Otros botones -->
                         <button onclick="toggleFavorite(<?= $archivo['id'] ?>)" class="bg-yellow-500 text-white px-2 py-1 rounded" <?= $estaBorrado ? 'disabled' : '' ?>>
                             <?= esFavorito($archivo['id'], $USUARIO_ID) ? 'Quitar Favorito' : 'Marcar Favorito' ?>
                         </button>
@@ -100,15 +107,26 @@ function esFavorito($archivo_id, $usuario_id) {
 
     <script>
     // Script para subir archivos vía AJAX
+    // Script para subir archivos vía AJAX
     document.getElementById('uploadForm').addEventListener('submit', function(e) {
         e.preventDefault();
+
         var fileInput = document.getElementById('fileInput');
+        var descripcionInput = document.getElementById('descripcionInput');
+
         if (fileInput.files.length === 0) {
             alert('Seleccione un archivo para subir.');
             return;
         }
+
         var formData = new FormData();
         formData.append('file', fileInput.files[0]);
+
+        // Agregar la descripción si el usuario la proporcionó
+        if (descripcionInput.value.trim() !== '') {
+            formData.append('descripcion', descripcionInput.value.trim());
+        }
+
         fetch('do_upload.php', {
             method: 'POST',
             body: formData
