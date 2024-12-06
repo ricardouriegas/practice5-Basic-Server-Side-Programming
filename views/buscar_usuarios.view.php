@@ -2,7 +2,7 @@
 <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
 <?php require APP_PATH . "html_parts/menu.php"; ?>
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<div class="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+<div class="flex flex-col items-center justify-center mt-20">
     <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h1 class="text-2xl font-bold mb-4 text-center">Buscar Usuarios</h1>
         <form id="form-buscar" class="flex flex-col space-y-4">
