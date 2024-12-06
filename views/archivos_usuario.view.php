@@ -18,11 +18,19 @@ function esFavorito($archivo_id, $usuario_id) {
         <div class="flex space-x-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Año:</label>
-                <input type="number" name="year" value="<?= $year ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <select name="year" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    <?php for ($i = 2020; $i <= date('Y'); $i++): ?>
+                        <option value="<?= $i ?>" <?= $i == $year ? 'selected' : '' ?>><?= $i ?></option>
+                    <?php endfor; ?>
+                </select>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Mes:</label>
-                <input type="number" name="month" value="<?= $month ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <select name="month" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    <?php for ($i = 1; $i <= 12; $i++): ?>
+                        <option value="<?= $i ?>" <?= $i == $month ? 'selected' : '' ?>><?= $i ?></option>
+                    <?php endfor; ?>
+                </select>
             </div>
             <div class="flex items-end">
                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm">Filtrar</button>
