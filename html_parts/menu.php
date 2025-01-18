@@ -3,12 +3,12 @@
 <div class="topnav">
     <?php if ($USUARIO_AUTENTICADO): ?>
         <a href="<?=APP_ROOT?>">Home</a>
-        <a href="<?=APP_ROOT?>enviar_datos_con_form.php">Enviar Datos<br />con form</a>
-        <a href="<?=APP_ROOT?>enviar_datos_con_ajax.php">Enviar Datos<br /> con AJAX</a>
+        <!-- <a href="<?=APP_ROOT?>enviar_datos_con_form.php">Enviar Datos<br />con form</a> -->
+        <!-- <a href="<?=APP_ROOT?>enviar_datos_con_ajax.php">Enviar Datos<br /> con AJAX</a> -->
         <a href="<?=APP_ROOT?>archivos_usuario.php">Mis Archivos</a>
         <a href="<?=APP_ROOT?>archivos_favoritos.php">Archivos Favoritos</a>
         <a href="<?=APP_ROOT?>buscar_usuarios.php">Buscar Usuarios</a>
-        <a href="#" style="float:right">Link</a>
+        <a href="#" id="help-link" style="float:right">Ayuda</a>
     <?php else: ?>
         <a href="<?=$APP_ROOT . "login.php"?>">Login</a>
     <?php endif; ?>
@@ -54,3 +54,16 @@ viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
 <!--Waves end-->
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('help-link').addEventListener('click', function(event) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Ayuda',
+            text: 'Para contactar a los desarrolladores, por favor envíe un correo a soporte@ejemplo.com o llame al 123-456-7890.',
+            icon: 'info',
+            confirmButtonText: 'Cerrar'
+        });
+    });
+</script>

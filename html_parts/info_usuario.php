@@ -7,6 +7,7 @@
         <span><a href="<?= APP_ROOT ?>actualizar_perfil.php"class="btn">Actualizar Perfil</a></span>
         <span><a href="<?= APP_ROOT ?>cambiar_password.php" class="btn">Actualizar Contraseña</a></span>
     <?php }else{ ?>
-        <span>Inicie Sesión</span>
+        <!-- link a iniciar sesion -->
+        <a href="<?= APP_ROOT ?>login.php" class="btn">Iniciar Sesión</a>
     <?php }?>
 </div>

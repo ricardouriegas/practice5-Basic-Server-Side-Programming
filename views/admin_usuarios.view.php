@@ -3,38 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($tituloPagina) ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800">
     <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
     <?php require APP_PATH . "html_parts/menu.php"; ?>
 
-    <div class="row">
-        <div class="leftcolumn">
-            <div class="card">
-                <h2>Gestión de Usuarios</h2>
-                
-                <div class="search-section">
-                    <input type="text" id="searchTerm" placeholder="Buscar por username o nombre">
-                    <button onclick="searchUsers()">Buscar</button>
-                </div>
-
-                <table id="usersTable">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Admin</th>
-                            <th>Activo</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Datos dinámicos -->
-                    </tbody>
-                </table>
+    <div class="container mx-auto mt-8">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-bold mb-4">Gestión de Usuarios</h2>
+            
+            <div class="mb-4">
+                <input type="text" id="searchTerm" placeholder="Buscar por username o nombre" class="border border-gray-300 rounded-lg p-2 mr-2">
+                <button onclick="searchUsers()" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Buscar</button>
             </div>
+
+            <table id="usersTable" class="min-w-full bg-white">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b">Username</th>
+                        <th class="py-2 px-4 border-b">Nombre</th>
+                        <th class="py-2 px-4 border-b">Apellidos</th>
+                        <th class="py-2 px-4 border-b">Admin</th>
+                        <th class="py-2 px-4 border-b">Activo</th>
+                        <th class="py-2 px-4 border-b">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Datos dinámicos -->
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -53,16 +52,16 @@
         users.forEach(user => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${user.username}</td>
-                <td>${user.nombre}</td>
-                <td>${user.apellidos}</td>
-                <td>${user.es_admin ? 'Sí' : 'No'}</td>
-                <td>${user.activo ? 'Sí' : 'No'}</td>
-                <td>
-                    <button onclick="toggleAdmin(${user.id})">${user.es_admin ? 'Quitar Admin' : 'Hacer Admin'}</button>
-                    <button onclick="resetPassword(${user.id})">Reset Password</button>
-                    <button onclick="toggleActive(${user.id})">${user.activo ? 'Desactivar' : 'Activar'}</button>
-                    <button onclick="deleteUser(${user.id})">Eliminar</button>
+                <td class="py-2 px-4 border-b">${user.username}</td>
+                <td class="py-2 px-4 border-b">${user.nombre}</td>
+                <td class="py-2 px-4 border-b">${user.apellidos}</td>
+                <td class="py-2 px-4 border-b">${user.es_admin ? 'Sí' : 'No'}</td>
+                <td class="py-2 px-4 border-b">${user.activo ? 'Sí' : 'No'}</td>
+                <td class="py-2 px-4 border-b">
+                    <button onclick="toggleAdmin(${user.id})" class="bg-yellow-500 text-white px-2 py-1 rounded-lg">${user.es_admin ? 'Quitar Admin' : 'Hacer Admin'}</button>
+                    <button onclick="resetPassword(${user.id})" class="bg-green-500 text-white px-2 py-1 rounded-lg">Reset Password</button>
+                    <button onclick="toggleActive(${user.id})" class="bg-blue-500 text-white px-2 py-1 rounded-lg">${user.activo ? 'Desactivar' : 'Activar'}</button>
+                    <button onclick="deleteUser(${user.id})" class="bg-red-500 text-white px-2 py-1 rounded-lg">Eliminar</button>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -70,35 +69,35 @@
     }
 
     function toggleAdmin(userId) {
-    fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=toggleAdmin&id=${userId}`)
-        .then(response => response.json())
-        .then(data => searchUsers());
-}
-
-function resetPassword(userId) {
-    if(confirm('¿Está seguro de restablecer la contraseña?')) {
-        fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=resetPassword&id=${userId}`)
-            .then(response => response.json())
-            .then(data => {
-                alert(data.mensaje);
-                searchUsers();
-            });
-    }
-}
-
-function toggleActive(userId) {
-    fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=toggleActive&id=${userId}`)
-        .then(response => response.json())
-        .then(data => searchUsers());
-}
-
-function deleteUser(userId) {
-    if(confirm('¿Está seguro que desea eliminar este usuario?')) {
-        fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=delete&id=${userId}`)
+        fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=toggleAdmin&id=${userId}`)
             .then(response => response.json())
             .then(data => searchUsers());
     }
-}
+
+    function resetPassword(userId) {
+        if(confirm('¿Está seguro de restablecer la contraseña?')) {
+            fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=resetPassword&id=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.mensaje);
+                    searchUsers();
+                });
+        }
+    }
+
+    function toggleActive(userId) {
+        fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=toggleActive&id=${userId}`)
+            .then(response => response.json())
+            .then(data => searchUsers());
+    }
+
+    function deleteUser(userId) {
+        if(confirm('¿Está seguro que desea eliminar este usuario?')) {
+            fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=delete&id=${userId}`)
+                .then(response => response.json())
+                .then(data => searchUsers());
+        }
+    }
 
     // Cargar usuarios al iniciar
     window.onload = () => searchUsers();

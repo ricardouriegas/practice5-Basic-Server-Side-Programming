@@ -3,53 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($tituloPagina) ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
     <script src="<?= APP_ROOT ?>js/config.js"></script>
 </head>
-<body>
+<body class="bg-gray-100">
 
     <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
 
-    <div class="header">
-        <h1>Actualizar Perfil</h1>
-    </div>
-
     <?php require APP_PATH . "html_parts/menu.php"; ?>
 
-    <div class="row">
-        <div class="leftcolumn">
-            <div class="card">
-                <h2>Modificar Información Personal</h2>
-                <form id="formActualizarPerfil" method="POST">
-                    <label for="nombre">Nombre:</label><br>
-                    <input type="text" id="nombre" name="nombre" value="<?= htmlspecialchars($userData['nombre']) ?>"><br><br>
+    <div class="container mx-auto mt-10">
+        <div class="max-w-md mx-auto bg-white p-5 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-5">Modificar Información Personal</h2>
+            <form id="formActualizarPerfil" method="POST" class="space-y-4">
+                <div>
+                    <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" value="<?= htmlspecialchars($userData['nombre']) ?>" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
 
-                    <label for="apellidos">Apellidos:</label><br>
-                    <input type="text" id="apellidos" name="apellidos" value="<?= htmlspecialchars($userData['apellidos']) ?>"><br><br>
+                <div>
+                    <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos" value="<?= htmlspecialchars($userData['apellidos']) ?>" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
 
-                    <label for="genero">Género:</label><br>
-                    <select id="genero" name="genero">
+                <div>
+                    <label for="genero" class="block text-sm font-medium text-gray-700">Género:</label>
+                    <select id="genero" name="genero" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option value="">Seleccione su género</option>
                         <option value="M" <?= $userData['genero'] == 'M' ? 'selected' : '' ?>>Masculino</option>
                         <option value="F" <?= $userData['genero'] == 'F' ? 'selected' : '' ?>>Femenino</option>
                         <option value="O" <?= $userData['genero'] == 'O' ? 'selected' : '' ?>>Otro</option>
-                    </select><br><br>
+                    </select>
+                </div>
 
-                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label><br>
-                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="<?= htmlspecialchars($userData['fecha_nacimiento']) ?>"><br><br>
+                <div>
+                    <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento:</label>
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="<?= htmlspecialchars($userData['fecha_nacimiento']) ?>" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
 
-                    <button type="submit">Actualizar</button>
-                </form>
-                <div id="resultado"></div>
-            </div>
+                <div>
+                    <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Actualizar</button>
+                </div>
+            </form>
+            <div id="resultado" class="mt-4"></div>
         </div>
-
-        <?php require APP_PATH . "html_parts/page_right_column.php"; ?>
-
-    </div>
-
-    <div class="footer">
-        <h2>ITI - Programación Web</h2>
     </div>
 
     <script>
@@ -65,7 +63,7 @@
         var fechaNacimiento = document.getElementById('fecha_nacimiento').value.trim();
 
         if (!nombre && !apellidos && !genero && !fechaNacimiento) {
-            resultado.innerHTML = '<p style="color:red;">Por favor, complete al menos un campo.</p>';
+            resultado.innerHTML = '<p class="text-red-500">Por favor, complete al menos un campo.</p>';
             return;
         }
 
@@ -78,12 +76,12 @@
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                resultado.innerHTML = '<p style="color:red;">' + data.error + '</p>';
+                resultado.innerHTML = '<p class="text-red-500">' + data.error + '</p>';
             } else {
-                resultado.innerHTML = '<p style="color:green;">' + data.mensaje + '</p>';
+                resultado.innerHTML = '<p class="text-green-500">' + data.mensaje + '</p>';
             }
         }).catch(error => {
-            resultado.innerHTML = '<p style="color:red;">Error de conexión: ' + error + '</p>';
+            resultado.innerHTML = '<p class="text-red-500">Error de conexión: ' + error + '</p>';
         });
     });
     </script>

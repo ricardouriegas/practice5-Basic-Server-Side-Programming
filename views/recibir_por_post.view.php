@@ -19,7 +19,7 @@
       
     <div class="row">
 
-        <div class="leftcolumn">
+        <div>
 
         <div class="card">
             <h2>Datos Recibidos por POST</h2>
@@ -37,14 +37,7 @@
 
         </div>  <!-- End left column -->
 
-        <!-- Incluimos la parte derecha de la página, que está procesada en otro archivo -->
-        <?php require APP_PATH . "html_parts/page_right_column.php"; ?>
-
     </div>  <!-- End row-->
-
-    <div class="footer">
-        <h2>ITI - Programación Web</h2>
-    </div>
 
 </body>
 </html>

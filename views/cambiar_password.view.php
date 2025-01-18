@@ -3,45 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($tituloPagina) ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
     <script src="<?= APP_ROOT ?>js/config.js"></script>
 </head>
-<body>
+<body class="bg-gray-100">
 
     <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
 
-    <div class="header">
-        <h1>Cambiar Contraseña</h1>
-    </div>
-
     <?php require APP_PATH . "html_parts/menu.php"; ?>
 
-    <div class="row">
-        <div class="leftcolumn">
-            <div class="card">
-                <h2>Cambiar Contraseña</h2>
-                <form id="formCambiarPassword" method="POST">
-                    <label for="password_actual">Contraseña Actual:</label><br>
-                    <input type="password" id="password_actual" name="password_actual" required><br><br>
+    <div class="container mx-auto mt-10">
+        <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-6">Cambiar Contraseña</h2>
+            <form id="formCambiarPassword" method="POST" class="space-y-4">
+                <div>
+                    <label for="password_actual" class="block text-sm font-medium text-gray-700">Contraseña Actual:</label>
+                    <input type="password" id="password_actual" name="password_actual" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
 
-                    <label for="nuevo_password">Nueva Contraseña:</label><br>
-                    <input type="password" id="nuevo_password" name="nuevo_password" required><br><br>
+                <div>
+                    <label for="nuevo_password" class="block text-sm font-medium text-gray-700">Nueva Contraseña:</label>
+                    <input type="password" id="nuevo_password" name="nuevo_password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
 
-                    <label for="confirmar_password">Confirmar Nueva Contraseña:</label><br>
-                    <input type="password" id="confirmar_password" name="confirmar_password" required><br><br>
+                <div>
+                    <label for="confirmar_password" class="block text-sm font-medium text-gray-700">Confirmar Nueva Contraseña:</label>
+                    <input type="password" id="confirmar_password" name="confirmar_password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
 
-                    <button type="submit">Cambiar Contraseña</button>
-                </form>
-                <div id="resultado"></div>
-            </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cambiar Contraseña</button>
+            </form>
+            <div id="resultado" class="mt-4"></div>
         </div>
-
-        <?php require APP_PATH . "html_parts/page_right_column.php"; ?>
-
-    </div>
-
-    <div class="footer">
-        <h2>ITI - Programación Web</h2>
     </div>
 
     <script>
@@ -61,12 +55,12 @@
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    resultado.innerHTML = '<p style="color:red;">' + data.error + '</p>';
+                    resultado.innerHTML = '<p class="text-red-500">' + data.error + '</p>';
                 } else {
-                    resultado.innerHTML = '<p style="color:green;">' + data.mensaje + '</p>';
+                    resultado.innerHTML = '<p class="text-green-500">' + data.mensaje + '</p>';
                 }
             }).catch(error => {
-                resultado.innerHTML = '<p style="color:red;">Error de conexión: ' + error + '</p>';
+                resultado.innerHTML = '<p class="text-red-500">Error de conexión: ' + error + '</p>';
             });
         });
     });

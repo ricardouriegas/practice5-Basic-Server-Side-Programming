@@ -4,59 +4,58 @@
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($tituloPagina) ?></title>
     <link href="<?=APP_ROOT?>css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="<?=APP_ROOT?>js/config.js"></script>
 </head>
-<body>
+<body class="bg-gray-100">
 
     <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
 
-    <div class="header">
-        <h1>Práctica 05</h1>
-        <h2>Registro de Usuario</h2>
-    </div>
+    <div class="flex justify-center mt-10">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-6">Registro</h2>
+            <form id="formRegistro" method="POST" class="space-y-4">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">Usuario:</label>
+                    <input type="text" id="username" name="username" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
 
-    <?php require APP_PATH . "html_parts/menu.php"; ?>
+                <div>
+                    <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
 
-    <div class="row">
-        <div class="leftcolumn">
-            <div class="card">
-                <h2>Registro</h2>
-                <form id="formRegistro" method="POST">
-                    <label for="username">Usuario:</label><br>
-                    <input type="text" id="username" name="username" required><br><br>
+                <div>
+                    <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
 
-                    <label for="nombre">Nombre:</label><br>
-                    <input type="text" id="nombre" name="nombre" required><br><br>
-
-                    <label for="apellidos">Apellidos:</label><br>
-                    <input type="text" id="apellidos" name="apellidos"><br><br>
-
-                    <label for="genero">Género:</label><br>
-                    <select id="genero" name="genero" required>
+                <div>
+                    <label for="genero" class="block text-sm font-medium text-gray-700">Género:</label>
+                    <select id="genero" name="genero" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option value="">Seleccione su género</option>
                         <option value="M">Masculino</option>
                         <option value="F">Femenino</option>
                         <option value="O">Otro</option>
-                    </select><br><br>
+                    </select>
+                </div>
 
-                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label><br>
-                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br><br>
+                <div>
+                    <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento:</label>
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
 
-                    <label for="password">Contraseña:</label><br>
-                    <input type="password" id="password" name="password" required><br><br>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña:</label>
+                    <input type="password" id="password" name="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
 
-                    <button type="submit">Registrarse</button>
-                </form>
-                <div id="resultado"></div>
-            </div>
+                <div>
+                    <button type="submit" class="w-full px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 text-center inline-block">Registrarse</button>
+                </div>
+            </form>
+            <div id="resultado" class="mt-4"></div>
         </div>
-
-        <?php require APP_PATH . "html_parts/page_right_column.php"; ?>
-
-    </div>
-
-    <div class="footer">
-        <h2>ITI - Programación Web</h2>
     </div>
 
     <script>
@@ -84,7 +83,7 @@
             }
 
             if (errores.length > 0) {
-                resultado.innerHTML = '<p style="color:red;">' + errores.join('<br>') + '</p>';
+                resultado.innerHTML = '<p class="text-red-500">' + errores.join('<br>') + '</p>';
                 return;
             }
 
@@ -99,9 +98,9 @@
             })
             .then(function(data) {
                 if (data.error) {
-                    resultado.innerHTML = '<p style="color:red;">' + data.error + '</p>';
+                    resultado.innerHTML = '<p class="text-red-500">' + data.error + '</p>';
                 } else {
-                    resultado.innerHTML = '<p style="color:green;">' + data.mensaje + '</p>';
+                    resultado.innerHTML = '<p class="text-green-500">' + data.mensaje + '</p>';
                     // Opcional: Redireccionar o limpiar el formulario
                 }
             })
