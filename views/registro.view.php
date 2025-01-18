@@ -5,6 +5,7 @@
     <title><?= htmlspecialchars($tituloPagina) ?></title>
     <link href="<?=APP_ROOT?>css/style.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="<?=APP_ROOT?>js/config.js"></script>
 </head>
 <body class="bg-gray-100">
@@ -14,14 +15,22 @@
     <div class="flex justify-center mt-10">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
             <h2 class="text-2xl font-bold mb-6">Registro</h2>
+            
+            <!-- Información de ayuda -->
+            <div class="mb-6 p-4 bg-blue-50 rounded-md">
+                <p class="text-sm text-blue-600">
+                    Complete el formulario con sus datos personales. Los campos marcados con * son obligatorios.
+                </p>
+            </div>
+
             <form id="formRegistro" method="POST" class="space-y-4">
                 <div>
-                    <label for="username" class="block text-sm font-medium text-gray-700">Usuario:</label>
+                    <label for="username" class="block text-sm font-medium text-gray-700">Usuario: *</label>
                     <input type="text" id="username" name="username" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
                 <div>
-                    <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
+                    <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre: *</label>
                     <input type="text" id="nombre" name="nombre" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
@@ -31,7 +40,7 @@
                 </div>
 
                 <div>
-                    <label for="genero" class="block text-sm font-medium text-gray-700">Género:</label>
+                    <label for="genero" class="block text-sm font-medium text-gray-700">Género: *</label>
                     <select id="genero" name="genero" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option value="">Seleccione su género</option>
                         <option value="M">Masculino</option>
@@ -41,12 +50,12 @@
                 </div>
 
                 <div>
-                    <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento:</label>
+                    <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento: *</label>
                     <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña:</label>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña: *</label>
                     <input type="password" id="password" name="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
@@ -83,7 +92,11 @@
             }
 
             if (errores.length > 0) {
-                resultado.innerHTML = '<p class="text-red-500">' + errores.join('<br>') + '</p>';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Errores en el formulario',
+                    html: errores.join('<br>')
+                });
                 return;
             }
 
@@ -98,14 +111,27 @@
             })
             .then(function(data) {
                 if (data.error) {
-                    resultado.innerHTML = '<p class="text-red-500">' + data.error + '</p>';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.error
+                    });
                 } else {
-                    resultado.innerHTML = '<p class="text-green-500">' + data.mensaje + '</p>';
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registro exitoso',
+                        text: data.mensaje
+                    });
                     // Opcional: Redireccionar o limpiar el formulario
                 }
             })
             .catch(function(error) {
                 console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al procesar la solicitud'
+                });
             });
         });
     </script>

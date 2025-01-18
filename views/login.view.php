@@ -8,6 +8,7 @@
     <link href="<?=APP_ROOT?>css/style.css" rel="stylesheet" type="text/css" /> 
     <title>Manejador de Archivos</title>
     <script src="<?=APP_ROOT?>js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100">
 
@@ -21,7 +22,7 @@
                     <h2 class="text-2xl font-bold text-gray-900">Iniciar Sesión</h2>
                     <h5 class="text-gray-600">Inicio de sesión para el Manejador de Archivos</h5>
                     <p class="mt-2 text-gray-600">Debe iniciar sesión para poder ingresar a la aplicación</p>
-                    <form action="<?=APP_ROOT?>do_login.php" method="POST" class="mt-4">
+                    <form action="<?=APP_ROOT?>do_login.php" method="POST" class="mt-4" onsubmit="return validateForm()">
                         <div class="mb-4">
                             <label for="txt-username" class="block text-gray-700">Username:</label>
                             <input type="text" name="username" id="txt-username" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
@@ -55,6 +56,24 @@
         </div>
 
     </div>  <!-- End container -->
+
+    <script>
+        function validateForm() {
+            const username = document.getElementById('txt-username').value;
+            const password = document.getElementById('txt-password').value;
+
+            if (username === '' || password === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Todos los campos son obligatorios.',
+                });
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 
 </body>
 </html>

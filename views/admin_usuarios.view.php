@@ -5,6 +5,7 @@
     <title><?= htmlspecialchars($tituloPagina) ?></title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
     <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
@@ -18,6 +19,8 @@
                 <input type="text" id="searchTerm" placeholder="Buscar por username o nombre" class="border border-gray-300 rounded-lg p-2 mr-2">
                 <button onclick="searchUsers()" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Buscar</button>
             </div>
+
+            <div id="statusMessage" class="mb-4 text-center text-red-500"></div>
 
             <table id="usersTable" class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
                 <thead class="bg-gray-50">
@@ -40,9 +43,16 @@
     <script>
     function searchUsers() {
         const searchTerm = document.getElementById('searchTerm').value;
+        document.getElementById('statusMessage').textContent = 'Buscando usuarios...';
         fetch('<?= APP_ROOT ?>admin/do_buscar_usuarios.php?search=' + encodeURIComponent(searchTerm))
             .then(response => response.json())
-            .then(data => updateUsersTable(data));
+            .then(data => {
+                updateUsersTable(data);
+                document.getElementById('statusMessage').textContent = '';
+            })
+            .catch(error => {
+                Swal.fire('Error', 'Error al buscar usuarios.', 'error');
+            });
     }
 
     function updateUsersTable(users) {
@@ -71,32 +81,69 @@
     function toggleAdmin(userId) {
         fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=toggleAdmin&id=${userId}`)
             .then(response => response.json())
-            .then(data => searchUsers());
+            .then(data => {
+                Swal.fire('Información', data.mensaje, 'info');
+                searchUsers();
+            })
+            .catch(error => {
+                Swal.fire('Error', 'Error al cambiar el estado de admin.', 'error');
+            });
     }
 
     function resetPassword(userId) {
-        if(confirm('¿Está seguro de restablecer la contraseña?')) {
-            fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=resetPassword&id=${userId}`)
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.mensaje);
-                    searchUsers();
-                });
-        }
+        Swal.fire({
+            title: '¿Está seguro de restablecer la contraseña?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, restablecer',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=resetPassword&id=${userId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire('Información', data.mensaje, 'info');
+                        searchUsers();
+                    })
+                    .catch(error => {
+                        Swal.fire('Error', 'Error al restablecer la contraseña.', 'error');
+                    });
+            }
+        });
     }
 
     function toggleActive(userId) {
         fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=toggleActive&id=${userId}`)
             .then(response => response.json())
-            .then(data => searchUsers());
+            .then(data => {
+                Swal.fire('Información', data.mensaje, 'info');
+                searchUsers();
+            })
+            .catch(error => {
+                Swal.fire('Error', 'Error al cambiar el estado de actividad.', 'error');
+            });
     }
 
     function deleteUser(userId) {
-        if(confirm('¿Está seguro que desea eliminar este usuario?')) {
-            fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=delete&id=${userId}`)
-                .then(response => response.json())
-                .then(data => searchUsers());
-        }
+        Swal.fire({
+            title: '¿Está seguro que desea eliminar este usuario?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=delete&id=${userId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire('Información', data.mensaje, 'info');
+                        searchUsers();
+                    })
+                    .catch(error => {
+                        Swal.fire('Error', 'Error al eliminar el usuario.', 'error');
+                    });
+            }
+        });
     }
 
     // Cargar usuarios al iniciar

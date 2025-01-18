@@ -11,6 +11,8 @@ function esFavorito($archivo_id, $usuario_id) {
 <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
 <?php require APP_PATH . "html_parts/menu.php"; ?>
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Archivos de <?= htmlspecialchars($usuario['nombre']) ?></h1>
     <form method="GET" class="mb-4">
@@ -77,10 +79,22 @@ function toggleFavorite(id) {
     })
     .then(response => response.json())
     .then(data => {
-        alert(data.message);
-        location.reload();
+        Swal.fire({
+            icon: data.success ? 'success' : 'error',
+            title: data.message,
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => {
+            location.reload();
+        });
     })
     .catch(error => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema al procesar tu solicitud.',
+            showConfirmButton: true
+        });
         console.error('Error:', error);
     });
 }

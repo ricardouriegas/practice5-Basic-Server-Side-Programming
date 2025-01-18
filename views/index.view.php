@@ -13,6 +13,7 @@ function esFavorito($archivo_id, $usuario_id) {
     <title><?= htmlspecialchars($tituloPagina) ?></title>
     <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
     <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
@@ -108,7 +109,6 @@ function esFavorito($archivo_id, $usuario_id) {
 
     <script>
     // Script para subir archivos vía AJAX
-    // Script para subir archivos vía AJAX
     document.getElementById('uploadForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -116,7 +116,7 @@ function esFavorito($archivo_id, $usuario_id) {
         var descripcionInput = document.getElementById('descripcionInput');
 
         if (fileInput.files.length === 0) {
-            alert('Seleccione un archivo para subir.');
+            Swal.fire('Error', 'Seleccione un archivo para subir.', 'error');
             return;
         }
 
@@ -134,11 +134,13 @@ function esFavorito($archivo_id, $usuario_id) {
         })
         .then(response => response.text())
         .then(result => {
-            alert(result);
-            location.reload();
+            Swal.fire('Éxito', result, 'success').then(() => {
+                location.reload();
+            });
         })
         .catch(error => {
             console.error('Error:', error);
+            Swal.fire('Error', 'Error al subir el archivo.', 'error');
         });
     });
 
@@ -160,32 +162,46 @@ function esFavorito($archivo_id, $usuario_id) {
             return response.json();
         })
         .then(data => {
-            alert(data.message);
-            location.reload();
+            Swal.fire('Éxito', data.message, 'success').then(() => {
+                location.reload();
+            });
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Error: ' + error.message);
+            Swal.fire('Error', error.message, 'error');
         });
     }
 
     // Función para eliminar un archivo
     function deleteFile(id) {
-        if (!confirm('¿Está seguro de que desea eliminar este archivo?')) return;
-        fetch('delete_file.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: id })
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-            location.reload();
-        })
-        .catch(error => {
-            console.error('Error:', error);
+        Swal.fire({
+            title: '¿Está seguro?',
+            text: "¡No podrá revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('delete_file.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    Swal.fire('Eliminado', data.message, 'success').then(() => {
+                        location.reload();
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire('Error', 'Error al eliminar el archivo.', 'error');
+                });
+            }
         });
     }
 
@@ -199,12 +215,13 @@ function esFavorito($archivo_id, $usuario_id) {
         })
         .then(response => response.json())
         .then(data => {
-            alert(data.message);
-            location.reload();
+            Swal.fire('Éxito', data.message, 'success').then(() => {
+                location.reload();
+            });
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Error al cambiar favorito.');
+            Swal.fire('Error', 'Error al cambiar favorito.', 'error');
         });
     }
     </script>

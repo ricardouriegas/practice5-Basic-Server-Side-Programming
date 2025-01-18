@@ -6,6 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
     <script src="<?= APP_ROOT ?>js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100">
 
@@ -16,19 +17,27 @@
     <div class="container mx-auto mt-10">
         <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold mb-6">Cambiar Contraseña</h2>
+            
+            <!-- Información de ayuda -->
+            <div class="mb-6 p-4 bg-blue-50 rounded-md">
+                <p class="text-sm text-blue-600">
+                    Complete el formulario con sus datos personales. Los campos marcados con * son obligatorios.
+                </p>
+            </div>
+
             <form id="formCambiarPassword" method="POST" class="space-y-4">
                 <div>
-                    <label for="password_actual" class="block text-sm font-medium text-gray-700">Contraseña Actual:</label>
+                    <label for="password_actual" class="block text-sm font-medium text-gray-700">Contraseña Actual: <span class="text-red-500">*</span></label>
                     <input type="password" id="password_actual" name="password_actual" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
                 <div>
-                    <label for="nuevo_password" class="block text-sm font-medium text-gray-700">Nueva Contraseña:</label>
+                    <label for="nuevo_password" class="block text-sm font-medium text-gray-700">Nueva Contraseña: <span class="text-red-500">*</span></label>
                     <input type="password" id="nuevo_password" name="nuevo_password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
                 <div>
-                    <label for="confirmar_password" class="block text-sm font-medium text-gray-700">Confirmar Nueva Contraseña:</label>
+                    <label for="confirmar_password" class="block text-sm font-medium text-gray-700">Confirmar Nueva Contraseña: <span class="text-red-500">*</span></label>
                     <input type="password" id="confirmar_password" name="confirmar_password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
@@ -55,12 +64,24 @@
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    resultado.innerHTML = '<p class="text-red-500">' + data.error + '</p>';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.error,
+                    });
                 } else {
-                    resultado.innerHTML = '<p class="text-green-500">' + data.mensaje + '</p>';
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: data.mensaje,
+                    });
                 }
             }).catch(error => {
-                resultado.innerHTML = '<p class="text-red-500">Error de conexión: ' + error + '</p>';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de conexión',
+                    text: 'Error de conexión: ' + error,
+                });
             });
         });
     });
