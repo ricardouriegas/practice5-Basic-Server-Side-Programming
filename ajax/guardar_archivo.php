@@ -11,6 +11,8 @@ $resObj = ["error" => NULL, "mensaje" => NULL];
 // Validación de que se envió el archivo
 if (empty($_FILES) || !isset($_FILES["archivo"])) {
     $resObj["error"] = "Archivo no especificado";
+    $resObj["status"] = "error";
+    $resObj["hint"] = "Seleccione un archivo e intente de nuevo.";
     echo json_encode($resObj);
     exit();  // finalizamos la ejecución de este archivo PHP
 }
@@ -28,6 +30,8 @@ $rutaAGuardar = DIR_UPLOAD . $nombreArchivo;
 $seGuardoArchivo = move_uploaded_file($rutaTemporal, $rutaAGuardar); 
 if (!$seGuardoArchivo) {  // No se guardo?
     $resObj["error"] = "No se pudo guardar el archivo :(";
+    $resObj["status"] = "error";
+    $resObj["hint"] = "Revise los permisos de escritura o contacte soporte.";
     echo json_encode($resObj);
     exit();
 }
@@ -37,6 +41,8 @@ $otroDato = filter_input(INPUT_POST, "otroDato");
 
 // establecemos el mensaje de respuesta
 $resObj["mensaje"] = "Archivo guardado correctamente. OtroDato = \"$otroDato\"";
+$resObj["status"] = "success";
+$resObj["hint"] = null;
 
 // Regresamos el JSON de la respuesta
 echo json_encode($resObj);

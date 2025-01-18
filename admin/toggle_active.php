@@ -7,7 +7,11 @@ require_once APP_PATH . "sesion_requerida.php";
 
 // Verify admin access
 if (!$USUARIO_ES_ADMIN) {
-    echo json_encode(["error" => "Acceso denegado"]);
+    echo json_encode([
+        "error" => "Acceso denegado",
+        "status" => "error",
+        "hint" => "Contacte un administrador para permiso."
+    ]);
     exit();
 }
 
@@ -34,7 +38,9 @@ try {
     // Return success response
     echo json_encode([
         "success" => true,
-        "mensaje" => "Estado actualizado correctamente"
+        "mensaje" => "Estado actualizado correctamente",
+        "status" => "success",
+        "hint" => null
     ]);
 
 } catch (Exception $e) {

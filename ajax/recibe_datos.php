@@ -23,7 +23,7 @@ if (!$apellidos || !strlen(trim($apellidos))) {  // Parámetro no recibido o es 
 if ($errores) {  // Si hay errores
 
     // Array asociativo que usaremos para en PHP construir el objeto JSON que regresaremos.
-    $resObj = ["mensaje" => NULL, "datos" => NULL, "errores" => $errores];
+    $resObj = ["mensaje" => NULL, "datos" => NULL, "errores" => $errores, "status" => "error", "hint" => "Verifique su información o contacte soporte."];
 
     // El array asociativo lo convertimos a un string JSON y esa va a ser la respuesta.
     echo json_encode($resObj);
@@ -44,7 +44,7 @@ $mensaje =  "Hola $nombre $apellidos";
 $datos = ["nombre" => $nombre, "apellidos" => $apellidos];
 
 // Array asociativo que usaremos para en PHP construir el objeto JSON que regresaremos.
-$resObj = ["mensaje" => $mensaje, "datos" => $datos, "errores" => $errores];
+$resObj = ["mensaje" => $mensaje, "datos" => $datos, "errores" => $errores, "status" => "success", "hint" => NULL];
 
 // El array asociativo lo convertimos a un string JSON y esa va a ser la respuesta.
 echo json_encode($resObj);

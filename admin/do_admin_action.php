@@ -6,7 +6,11 @@ require_once APP_PATH . "sesion_requerida.php";
 
 // Verify admin access
 if (!$USUARIO_ES_ADMIN) {
-    echo json_encode(["error" => "Acceso denegado"]);
+    echo json_encode([
+        "error" => "Acceso denegado",
+        "status" => "error",
+        "hint" => "Se requieren privilegios de administrador."
+    ]);
     exit();
 }
 
@@ -42,7 +46,9 @@ try {
             $stmt->execute([$passwordEncrypted, $salt, $userId]);
             echo json_encode([
                 "success" => true,
-                "mensaje" => "Contraseña restablecida a: $defaultPass"
+                "mensaje" => "Contraseña restablecida a: $defaultPass",
+                "status" => "success",
+                "hint" => null
             ]);
             exit();
             
@@ -72,12 +78,16 @@ try {
 
     echo json_encode([
         "success" => true,
-        "mensaje" => $mensaje
+        "mensaje" => $mensaje,
+        "status" => "success",
+        "hint" => null
     ]);
 
 } catch (Exception $e) {
     http_response_code(400);
     echo json_encode([
-        "error" => $e->getMessage()
+        "error" => $e->getMessage(),
+        "status" => "error",
+        "hint" => "Verifique parámetros o contacte soporte."
     ]);
 }

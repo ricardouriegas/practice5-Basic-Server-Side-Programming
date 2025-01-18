@@ -28,7 +28,7 @@ if (!array_key_exists("apellidos", $reqObj) ||
 }
 
 if ($errores) {  // Si hay errores
-    $resObj = ['mensaje' => NULL, 'errores' => $errores, 'otroDato' => NULL];
+    $resObj = ['mensaje' => NULL, 'errores' => $errores, 'otroDato' => NULL, "status" => "error", "hint" => "Revise los campos con errores e intente de nuevo."];
     echo json_encode($resObj);  // Regresamos la respuesta JSON.
     exit();  // Terminamos la ejecución de la aplicación
 }
@@ -41,7 +41,7 @@ $mensaje = "Hola $nombre $apellidos, hiciste una petición enviando datos como J
 
 // Definimos un array asociativo que es la respuesta que vamos a enviar.
 $otroDato = $reqObj["otroDato"] * 3.1416;
-$resObj = ['mensaje' => $mensaje, 'errores' => $errores, 'otroDato' => $otroDato];
+$resObj = ['mensaje' => $mensaje, 'errores' => $errores, 'otroDato' => $otroDato, "status" => "success", "hint" => null];
 
 // Regresamos la respuesta JSON.
 echo json_encode($resObj);

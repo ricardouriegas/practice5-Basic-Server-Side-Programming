@@ -175,6 +175,17 @@
   color: #000;
   font-weight: bold;
 }
+
+.btn:focus {
+  outline: 3px solid #f00;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin: 1em 0;
+}
+
 /* Wave effect for header */
 .header {
   position: relative;

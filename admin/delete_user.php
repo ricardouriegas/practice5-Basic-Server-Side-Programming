@@ -7,7 +7,11 @@ require_once APP_PATH . "sesion_requerida.php";
 
 // Verify admin access
 if (!$USUARIO_ES_ADMIN) {
-    echo json_encode(["error" => "Acceso denegado"]);
+    echo json_encode([
+        "error" => "Acceso denegado",
+        "status" => "error",
+        "hint" => "Contacte un administrador para permiso."
+    ]);
     exit();
 }
 
@@ -39,12 +43,16 @@ try {
     // Return success response
     echo json_encode([
         "success" => true,
-        "mensaje" => "Usuario eliminado correctamente"
+        "mensaje" => "Usuario eliminado correctamente",
+        "status" => "success",
+        "hint" => null
     ]);
 
 } catch (Exception $e) {
     http_response_code(400);
     echo json_encode([
-        "error" => $e->getMessage()
+        "error" => $e->getMessage(),
+        "status" => "error",
+        "hint" => "Revise el ID o contacte soporte."
     ]);
 }

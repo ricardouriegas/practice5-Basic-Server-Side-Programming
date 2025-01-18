@@ -32,7 +32,8 @@ $resObj = [
     "horaAMostrar" => $horaAMostrar,
     "fechaStr" => $fechaStr,
     "horaStr" => $horaStr,
-    "hora" => $hora
+    "hora" => $hora,
+    "status" => "success"
 ];
 
 // Especificamos que la respuesta a esta petición va a ser de tipo JSON.
