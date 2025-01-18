@@ -10,12 +10,11 @@
 <body class="bg-gray-100">
 
     <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
-
     <?php require APP_PATH . "html_parts/menu.php"; ?>
 
     <div class="container mx-auto mt-10">
-        <div class="max-w-md mx-auto bg-white p-5 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold mb-5">Modificar Información Personal</h2>
+        <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-6">Modificar Información Personal</h2>
             <form id="formActualizarPerfil" method="POST" class="space-y-4">
                 <div>
                     <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
@@ -42,46 +41,37 @@
                     <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="<?= htmlspecialchars($userData['fecha_nacimiento']) ?>" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
-                <div>
-                    <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Actualizar</button>
-                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Actualizar</button>
+
             </form>
             <div id="resultado" class="mt-4"></div>
         </div>
     </div>
 
     <script>
-    document.getElementById('formActualizarPerfil').addEventListener('submit', function(e) {
-        e.preventDefault();
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('formActualizarPerfil').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        var resultado = document.getElementById('resultado');
-        resultado.innerHTML = ''; // Limpiar mensajes anteriores
+            var resultado = document.getElementById('resultado');
+            resultado.innerHTML = ''; // Limpiar mensajes anteriores
 
-        var nombre = document.getElementById('nombre').value.trim();
-        var apellidos = document.getElementById('apellidos').value.trim();
-        var genero = document.getElementById('genero').value.trim();
-        var fechaNacimiento = document.getElementById('fecha_nacimiento').value.trim();
+            var formData = new FormData(this);
 
-        if (!nombre && !apellidos && !genero && !fechaNacimiento) {
-            resultado.innerHTML = '<p class="text-red-500">Por favor, complete al menos un campo.</p>';
-            return;
-        }
-
-        var formData = new FormData(this);
-
-        fetch('<?= APP_ROOT ?>do_actualizar_perfil.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                resultado.innerHTML = '<p class="text-red-500">' + data.error + '</p>';
-            } else {
-                resultado.innerHTML = '<p class="text-green-500">' + data.mensaje + '</p>';
-            }
-        }).catch(error => {
-            resultado.innerHTML = '<p class="text-red-500">Error de conexión: ' + error + '</p>';
+            fetch('<?= APP_ROOT ?>do_actualizar_perfil.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    resultado.innerHTML = '<p class="text-red-500">' + data.error + '</p>';
+                } else {
+                    resultado.innerHTML = '<p class="text-green-500">' + data.mensaje + '</p>';
+                }
+            }).catch(error => {
+                resultado.innerHTML = '<p class="text-red-500">Error de conexión: ' + error + '</p>';
+            });
         });
     });
     </script>

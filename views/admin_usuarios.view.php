@@ -19,8 +19,8 @@
                 <button onclick="searchUsers()" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Buscar</button>
             </div>
 
-            <table id="usersTable" class="min-w-full bg-white">
-                <thead>
+            <table id="usersTable" class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-gray-50">
                     <tr>
                         <th class="py-2 px-4 border-b">Username</th>
                         <th class="py-2 px-4 border-b">Nombre</th>
@@ -30,7 +30,7 @@
                         <th class="py-2 px-4 border-b">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white divide-y divide-gray-200 text-center">
                     <!-- Datos dinámicos -->
                 </tbody>
             </table>

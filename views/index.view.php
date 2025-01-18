@@ -53,8 +53,8 @@ function esFavorito($archivo_id, $usuario_id) {
         </form>
 
         <!-- Tabla de archivos -->
-        <table class="min-w-full bg-white shadow-md rounded">
-            <thead>
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-gray-50">
                 <tr>
                     <th class="py-2 px-4 border-b">Nombre del Archivo</th>
                     <th class="py-2 px-4 border-b">Descripción</th>
@@ -63,7 +63,8 @@ function esFavorito($archivo_id, $usuario_id) {
                     <th class="py-2 px-4 border-b">Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <!-- center -->
+            <tbody class="bg-white divide-y divide-gray-200 text-center">
                 <?php foreach ($archivos as $archivo): ?>
                 <?php
                     $estaBorrado = !is_null($archivo['fecha_borrado']);

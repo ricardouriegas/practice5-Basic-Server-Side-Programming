@@ -48,7 +48,7 @@ function esFavorito($archivo_id, $usuario_id) {
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Favorito</th>
             </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody class="bg-white divide-y divide-gray-200 text-center">
             <?php foreach ($archivos as $archivo): ?>
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap"><a href="archivo.php?id=<?= $archivo['id'] ?>" class="text-blue-600 hover:underline"><?= htmlspecialchars($archivo['nombre_archivo']) ?></a></td>
