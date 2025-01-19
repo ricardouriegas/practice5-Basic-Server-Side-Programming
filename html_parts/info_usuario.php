@@ -17,7 +17,7 @@
 <script>
     const synth = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance();
-    let narradorActivo = false;
+    let narradorActivo = localStorage.getItem('narradorActivo') === 'true';
 
     utterance.lang = 'es-ES';
     utterance.rate = 1;
@@ -39,7 +39,7 @@
 
         // Add event listener to input elements
         document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('mouseover', (e) => {
+            input.addEventListener('focus', (e) => {
                 if (narradorActivo) {
                     readText('Campo de entrada. ' + (e.target.placeholder || ''));
                 }
@@ -47,25 +47,37 @@
 
             input.addEventListener('input', (e) => {
                 if (narradorActivo) {
-                    readText(e.target.value);
+                    readText('Escribiendo: ' + e.target.value);
                 }
             });
         });
 
-        // Add event listener to textarea elements
-        document.querySelectorAll('textarea').forEach(textarea => {
-            textarea.addEventListener('mouseover', (e) => {
-                if (narradorActivo) {
-                    readText('Área de texto. ' + (e.target.placeholder || ''));
+        // Intercept SweetAlert calls
+        const originalSwalFire = Swal.fire;
+        Swal.fire = function(options) {
+            if (narradorActivo) {
+                let textToRead = '';
+                if (typeof options === 'string') {
+                    textToRead = options;
+                } else if (typeof options === 'object') {
+                    textToRead = options.title || '';
+                    if (options.text) textToRead += ' ' + options.text;
+                    if (options.html) textToRead += ' ' + options.html;
                 }
-            });
+                readText(textToRead);
 
-            textarea.addEventListener('input', (e) => {
-                if (narradorActivo) {
-                    readText(e.target.value);
-                }
-            });
-        });
+                // Wait for the SweetAlert to be rendered
+                setTimeout(() => {
+                    document.querySelectorAll('.swal2-confirm, .swal2-cancel').forEach(button => {
+                        button.addEventListener('mouseover', (e) => {
+                            const text = e.target.innerText.trim();
+                            if (narradorActivo && text) readText(text);
+                        });
+                    });
+                }, 100); // Adjust the timeout as needed
+            }
+            return originalSwalFire.apply(this, arguments);
+        };
     });
 
     const toggleNarradorLink = document.getElementById('toggle-narrador');
@@ -73,16 +85,10 @@
         event.preventDefault();
         narradorActivo = !narradorActivo;
         this.textContent = narradorActivo ? 'Desactivar Narrador' : 'Activar Narrador';
+        localStorage.setItem('narradorActivo', narradorActivo);
         if (synth.speaking) synth.cancel();
     });
-</script>
-<script>
-    // Recuperar el estado del narrador del localStorage
-    narradorActivo = localStorage.getItem('narradorActivo') === 'true';
-    toggleNarradorLink.textContent = narradorActivo ? 'Desactivar Narrador' : 'Activar Narrador';
 
-    // Actualizar el localStorage cuando cambie el estado
-    toggleNarradorLink.addEventListener('click', function() {
-        localStorage.setItem('narradorActivo', narradorActivo);
-    });
+    // Set initial state of the button
+    toggleNarradorLink.textContent = narradorActivo ? 'Desactivar Narrador' : 'Activar Narrador';
 </script>
