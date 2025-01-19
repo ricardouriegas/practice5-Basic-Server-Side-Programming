@@ -47,7 +47,7 @@
 
             input.addEventListener('input', (e) => {
                 if (narradorActivo) {
-                    readText('Escribiendo: ' + e.target.value);
+                    readText(e.target.value);
                 }
             });
         });
@@ -62,7 +62,7 @@
 
             textarea.addEventListener('input', (e) => {
                 if (narradorActivo) {
-                    readText('Escribiendo: ' + e.target.value);
+                    readText(e.target.value);
                 }
             });
         });

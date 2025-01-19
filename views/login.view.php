@@ -25,11 +25,11 @@
                     <form action="<?=APP_ROOT?>do_login.php" method="POST" class="mt-4" onsubmit="return validateForm()">
                         <div class="mb-4">
                             <label for="txt-username" class="block text-gray-700">Username:</label>
-                            <input type="text" name="username" id="txt-username" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
+                            <input type="text" name="username" id="txt-username" placeholder="Ingrese su nombre de usuario" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
                         </div>
                         <div class="mb-4">
                             <label for="txt-password" class="block text-gray-700">Password:</label>
-                            <input type="password" name="password" id="txt-password" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
+                            <input type="password" name="password" id="txt-password" placeholder="Ingrese su contraseña" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
                         </div>
                         <div class="mb-4">
                             <!-- <input type="submit" value="Entrar" class="w-full px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" /> -->
