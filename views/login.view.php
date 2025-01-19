@@ -20,8 +20,14 @@
             <div class="md:flex">
                 <div class="w-full p-4">
                     <h2 class="text-2xl font-bold text-gray-900">Iniciar Sesión</h2>
-                    <h5 class="text-gray-600">Inicio de sesión para el Manejador de Archivos</h5>
-                    <p class="mt-2 text-gray-600">Debe iniciar sesión para poder ingresar a la aplicación</p>
+                    <div class="mb-6 p-4 bg-blue-50 rounded-md">
+                        <p class="text-sm text-blue-600">
+                            Complete el formulario con sus datos personales. 
+                        </p>
+                        <p class="text-sm text-blue-600">
+                            Los campos marcados con * son obligatorios.
+                        </p>
+                    </div>
                     <form action="<?=APP_ROOT?>do_login.php" method="POST" class="mt-4" onsubmit="return validateForm()">
                         <div class="mb-4">
                             <label for="txt-username" class="block text-gray-700">Username:</label>
@@ -44,11 +50,14 @@
             <div class="md:flex">
             <div class="w-full p-4">
                 <h2 class="text-2xl font-bold text-gray-900">Registro</h2>
-                <h5 class="text-gray-600">Registro de nuevos usuarios</h5>
-                <p class="mt-2 text-gray-600">
-                Para poder acceder a los servicios de esta aplicación, debe tener una cuenta. 
-                Si usted todavía no tiene una cuenta, haga click en el siguiente botón para registrarse.
-                </p>
+                <div class="mb-6 p-4 bg-blue-50 rounded-md">
+                    <p class="text-sm text-blue-600 mt-2">
+                        Para poder acceder a los servicios de esta aplicación, debe tener una cuenta.
+                    </p>
+                    <p class="text-sm text-blue-600 mt-2">
+                        Si usted todavía no tiene una cuenta, haga click en el siguiente botón para registrarse.
+                    </p>
+                </div>
                 <div class="mt-4">
                     <a href="registro.php" class="w-full px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 text-center inline-block">Registrarme</a>
                 </div>
