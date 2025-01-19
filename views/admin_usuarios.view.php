@@ -82,7 +82,7 @@
         fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=toggleAdmin&id=${userId}`)
             .then(response => response.json())
             .then(data => {
-                Swal.fire('Información', data.mensaje, 'info');
+                Swal.fire(data.mensaje, '', 'info');
                 searchUsers();
             })
             .catch(error => {
@@ -102,7 +102,7 @@
                 fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=resetPassword&id=${userId}`)
                     .then(response => response.json())
                     .then(data => {
-                        Swal.fire('Información', data.mensaje, 'info');
+                        Swal.fire(data.mensaje, '', 'info');
                         searchUsers();
                     })
                     .catch(error => {
@@ -116,7 +116,7 @@
         fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=toggleActive&id=${userId}`)
             .then(response => response.json())
             .then(data => {
-                Swal.fire('Información', data.mensaje, 'info');
+                Swal.fire(data.mensaje, '', 'info');
                 searchUsers();
             })
             .catch(error => {
@@ -136,7 +136,7 @@
                 fetch(`<?= APP_ROOT ?>admin/do_admin_action.php?action=delete&id=${userId}`)
                     .then(response => response.json())
                     .then(data => {
-                        Swal.fire('Información', data.mensaje, 'info');
+                        Swal.fire(data.mensaje, '', 'info');
                         searchUsers();
                     })
                     .catch(error => {
