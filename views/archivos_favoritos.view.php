@@ -1,8 +1,10 @@
+<title><?= htmlspecialchars($tituloPagina) ?></title>
 <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
 <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
 <?php require APP_PATH . "html_parts/menu.php"; ?>
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Archivos Favoritos</h1>
     <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden" aria-describedby="table-caption">

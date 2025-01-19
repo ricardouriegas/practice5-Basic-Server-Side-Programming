@@ -7,6 +7,7 @@ function esFavorito($archivo_id, $usuario_id) {
 }
 ?>
 
+<title><?= htmlspecialchars($tituloPagina) ?></title>
 <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
 <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
 <?php require APP_PATH . "html_parts/menu.php"; ?>
@@ -43,21 +44,21 @@ function esFavorito($archivo_id, $usuario_id) {
     <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
         <thead class="bg-gray-50">
             <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tamaño</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Subido</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Favorito</th>
+                <th class="py-2 px-4 border-b">Nombre</th>
+                <th class="py-2 px-4 border-b">Descripción</th>
+                <th class="py-2 px-4 border-b">Tamaño</th>
+                <th class="py-2 px-4 border-b">Fecha Subido</th>
+                <th class="py-2 px-4 border-b">Favorito</th>
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200 text-center">
             <?php foreach ($archivos as $archivo): ?>
             <tr>
-                <td class="px-6 py-4 whitespace-nowrap"><a href="archivo.php?id=<?= $archivo['id'] ?>" class="text-blue-600 hover:underline"><?= htmlspecialchars($archivo['nombre_archivo']) ?></a></td>
-                <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($archivo['descripcion']) ?></td>
-                <td class="px-6 py-4 whitespace-nowrap"><?= number_format($archivo['tamaño'] / 1024, 2) ?> KB</td>
-                <td class="px-6 py-4 whitespace-nowrap"><?= $archivo['fecha_subido'] ?></td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="py-2 px-4 border-b"><a href="archivo.php?id=<?= $archivo['id'] ?>" class="text-blue-600 hover:underline"><?= htmlspecialchars($archivo['nombre_archivo']) ?></a></td>
+                <td class="py-2 px-4 border-b"><?= htmlspecialchars($archivo['descripcion']) ?></td>
+                <td class="py-2 px-4 border-b"><?= number_format($archivo['tamaño'] / 1024, 2) ?> KB</td>
+                <td class="py-2 px-4 border-b"><?= $archivo['fecha_subido'] ?></td>
+                <td class="py-2 px-4 border-b">
                     <button onclick="toggleFavorite(<?= $archivo['id'] ?>)" class="px-4 py-2 bg-yellow-500 text-white rounded-md shadow-sm">
                         <?= esFavorito($archivo['id'], $USUARIO_ID) ? 'Quitar Favorito' : 'Marcar Favorito' ?>
                     </button>

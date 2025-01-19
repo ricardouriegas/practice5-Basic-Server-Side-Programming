@@ -1,3 +1,4 @@
+<title><?= htmlspecialchars($tituloPagina) ?></title>
 <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
 <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
 <?php require APP_PATH . "html_parts/menu.php"; ?>

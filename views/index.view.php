@@ -224,6 +224,8 @@ function esFavorito($archivo_id, $usuario_id) {
             Swal.fire('Error', 'Error al cambiar favorito.', 'error');
         });
     }
+
+    
     </script>
 </body>
 </html>

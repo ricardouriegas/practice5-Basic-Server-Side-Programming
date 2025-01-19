@@ -32,7 +32,8 @@
                             <input type="password" name="password" id="txt-password" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
                         </div>
                         <div class="mb-4">
-                            <input type="submit" value="Entrar" class="w-full px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" />
+                            <!-- <input type="submit" value="Entrar" class="w-full px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" /> -->
+                            <button type="submit" class="w-full px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Entrar</button>
                         </div>
                     </form>
                 </div>
@@ -49,7 +50,7 @@
                 Si usted todavía no tiene una cuenta, haga click en el siguiente botón para registrarse.
                 </p>
                 <div class="mt-4">
-                <a href="registro.php" class="w-full px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 text-center inline-block">Registrarme</a>
+                    <a href="registro.php" class="w-full px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 text-center inline-block">Registrarme</a>
                 </div>
             </div>
             </div>
