@@ -17,37 +17,45 @@
     <div class="container mx-auto mt-10">
 
         <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden md:max-w-2xl">
-            <div class="md:flex">
-                <div class="w-full p-4">
-                    <h2 class="text-2xl font-bold text-gray-900">Iniciar Sesión</h2>
-                    <div class="mb-6 p-4 bg-blue-50 rounded-md">
-                        <p class="text-sm text-blue-600">
-                            Complete el formulario con sus datos personales. 
-                        </p>
-                        <p class="text-sm text-blue-600">
-                            Los campos marcados con * son obligatorios.
-                        </p>
-                    </div>
-                    <form action="<?=APP_ROOT?>do_login.php" method="POST" class="mt-4" onsubmit="return validateForm()">
-                        <div class="mb-4">
-                            <label for="txt-username" class="block text-gray-700">Username:</label>
-                            <input type="text" name="username" id="txt-username" placeholder="Ingrese su nombre de usuario" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
-                        </div>
-                        <div class="mb-4">
-                            <label for="txt-password" class="block text-gray-700">Password:</label>
-                            <input type="password" name="password" id="txt-password" placeholder="Ingrese su contraseña" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
-                        </div>
-                        <div class="mb-4">
-                            <!-- <input type="submit" value="Entrar" class="w-full px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" /> -->
-                            <button type="submit" class="w-full px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Entrar</button>
-                        </div>
-                    </form>
+            <div class="w-full p-4">
+                <h2 class="text-2xl font-bold text-gray-900">Iniciar Sesión</h2>
+
+                <!-- Muestra el estado del sistema en caso de error -->
+                <?php if (isset($_GET['error']) && $_GET['error'] === 'invalid_credentials'): ?>
+                    <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de credenciales',
+                        text: 'Usuario o contraseña incorrectos.'
+                    });
+                    </script>
+                <?php endif; ?>
+
+                <div class="mb-6 p-4 bg-blue-50 rounded-md">
+                    <p class="text-sm text-blue-600">
+                        Complete el formulario con sus datos personales. 
+                    </p>
+                    <p class="text-sm text-blue-600">
+                        Los campos marcados con * son obligatorios.
+                    </p>
                 </div>
+                <form action="<?=APP_ROOT?>do_login.php" method="POST" class="mt-4" onsubmit="return validateForm()">
+                    <div class="mb-4">
+                        <label for="txt-username" class="block text-gray-700">Username:</label>
+                        <input type="text" name="username" id="txt-username" placeholder="Ingrese su nombre de usuario" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
+                    </div>
+                    <div class="mb-4">
+                        <label for="txt-password" class="block text-gray-700">Password:</label>
+                        <input type="password" name="password" id="txt-password" placeholder="Ingrese su contraseña" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
+                    </div>
+                    <div class="mb-4">
+                        <button type="submit" class="w-full px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Entrar</button>
+                    </div>
+                </form>
             </div>
         </div>
 
         <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden md:max-w-2xl mt-6">
-            <div class="md:flex">
             <div class="w-full p-4">
                 <h2 class="text-2xl font-bold text-gray-900">Registro</h2>
                 <div class="mb-6 p-4 bg-blue-50 rounded-md">
@@ -61,7 +69,6 @@
                 <div class="mt-4">
                     <a href="registro.php" class="w-full px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 text-center inline-block">Registrarme</a>
                 </div>
-            </div>
             </div>
         </div>
 

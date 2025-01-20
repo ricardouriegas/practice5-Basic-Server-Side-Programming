@@ -15,7 +15,7 @@ if (!$username || !$password) {
 $usuario = autentificar($username, $password);
 
 if (!$usuario) {
-    header("Location: " . APP_ROOT . "login.php");
+    header("Location: " . APP_ROOT . "login.php?error=invalid_credentials");
     exit();
 }
 
