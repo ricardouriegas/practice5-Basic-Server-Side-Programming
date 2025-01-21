@@ -110,39 +110,45 @@ function esFavorito($archivo_id, $usuario_id) {
     <script>
     // Script para subir archivos vía AJAX
     document.getElementById('uploadForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    e.preventDefault();
 
-        var fileInput = document.getElementById('fileInput');
-        var descripcionInput = document.getElementById('descripcionInput');
+    var fileInput = document.getElementById('fileInput');
+    var descripcionInput = document.getElementById('descripcionInput');
+    
+    if (fileInput.files.length === 0) {
+        Swal.fire('Error', 'Seleccione un archivo para subir.', 'error');
+        return;
+    }
 
-        if (fileInput.files.length === 0) {
-            Swal.fire('Error', 'Seleccione un archivo para subir.', 'error');
-            return;
-        }
+    // Revisar extensión del archivo
+    var allowedExtensions = /(\.pdf|\.jpg|\.jpeg|\.png|\.gif)$/i;
+    if (!allowedExtensions.exec(fileInput.value)) {
+        Swal.fire('Error', 'El archivo no es válido. Solo se permiten PDF, JPG, JPEG, PNG y GIF.', 'error');
+        return;
+    }
 
-        var formData = new FormData();
-        formData.append('file', fileInput.files[0]);
+    var formData = new FormData();
+    formData.append('file', fileInput.files[0]);
 
-        // Agregar la descripción si el usuario la proporcionó
-        if (descripcionInput.value.trim() !== '') {
-            formData.append('descripcion', descripcionInput.value.trim());
-        }
+    if (descripcionInput.value.trim() !== '') {
+        formData.append('descripcion', descripcionInput.value.trim());
+    }
 
-        fetch('do_upload.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text())
-        .then(result => {
-            Swal.fire('Éxito', result, 'success').then(() => {
-                location.reload();
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire('Error', 'Error al subir el archivo.', 'error');
+    fetch('do_upload.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(result => {
+        Swal.fire('Éxito', result, 'success').then(() => {
+            location.reload();
         });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Error', 'Error al subir el archivo.', 'error');
     });
+});
 
     // Función para hacer público/privado un archivo
     function togglePublic(id) {
