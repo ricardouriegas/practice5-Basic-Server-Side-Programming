@@ -112,7 +112,8 @@
   /* Estilos para los botones */
 
 /* button */
-.btn {
+/* button */
+.btn2 {
   margin: 1vh;
   padding: 15px 40px;
   border: none;
@@ -122,8 +123,9 @@
   position: relative;
   z-index: 0;
   border-radius: 12px;
+  transition: background-color 1s ease, color 0.3s ease;
 }
-.btn::after {
+.btn2::after {
   content: "";
   z-index: -1;
   position: absolute;
@@ -132,52 +134,13 @@
   background-color: #333;
   left: 0;
   top: 0;
-  border-radius: 10px;
-}
-/* glow */
-.btn::before {
-  content: "";
-  background: linear-gradient(
-    45deg,
-    #FF0000, #FF7300, #FFFB00, #48FF00,
-    #00FFD5, #002BFF, #FF00C8, #FF0000
-  );
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  background-size: 600%;
-  z-index: -1;
-  width: calc(100% + 4px);
-  height:  calc(100% + 4px);
-  filter: blur(8px);
-  animation: glowing 20s linear infinite;
-  transition: opacity .3s ease-in-out;
-  border-radius: 10px;
-  opacity: 0;
-}
-
-@keyframes glowing {
-  0% {background-position: 0 0;}
-  50% {background-position: 400% 0;}
-  100% {background-position: 0 0;}
+  border-radius: 15px;
 }
 
 /* hover */
-.btn:hover::before {
-  opacity: 1;
-}
-
-.btn:active:after {
-  background: transparent;
-}
-
-.btn:active {
-  color: #000;
-  font-weight: bold;
-}
-
-.btn:focus {
-  outline: 3px solid #f00;
+.btn2:hover {
+  background-color: #ddd;
+  color: black;
 }
 
 .error-message {

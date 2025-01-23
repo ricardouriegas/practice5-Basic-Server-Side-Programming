@@ -2,7 +2,7 @@
 
 <div class="topnav">
     <?php if ($USUARIO_AUTENTICADO): ?>
-        <a href="<?=APP_ROOT?>">Home</a>
+        <a href="<?=APP_ROOT?>">Inicio</a>
         <a href="<?=APP_ROOT?>archivos_usuario.php">Mis Archivos</a>
         <a href="<?=APP_ROOT?>archivos_favoritos.php">Archivos Favoritos</a>
         <a href="<?=APP_ROOT?>buscar_usuarios.php">Buscar Usuarios</a>

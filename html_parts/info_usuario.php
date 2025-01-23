@@ -3,14 +3,14 @@
     <strong><?= $USUARIO_AUTENTICADO ? $USUARIO_NOMBRE_COMPLETO : "USUARIO" ?></strong>
     <span>|</span>
     <?php if ($USUARIO_AUTENTICADO){ ?>
-        <span><a href="<?=APP_ROOT?>logout.php" class="btn">Cerrar Sesion</a></span>
-        <span><a href="<?= APP_ROOT ?>actualizar_perfil.php"class="btn">Actualizar Perfil</a></span>
-        <span><a href="<?= APP_ROOT ?>cambiar_password.php" class="btn">Actualizar Contraseña</a></span>
-        <span><a href="#" id="toggle-narrador" class="btn">Activar Narrador</a></span>
+        <span><a href="<?=APP_ROOT?>logout.php" class="btn2">Cerrar Sesion</a></span>
+        <span><a href="<?= APP_ROOT ?>actualizar_perfil.php"class="btn2">Actualizar Perfil</a></span>
+        <span><a href="<?= APP_ROOT ?>cambiar_password.php" class="btn2">Actualizar Contraseña</a></span>
+        <span><a href="#" id="toggle-narrador" class="btn2">Activar Narrador</a></span>
     <?php }else{ ?>
         <!-- link a iniciar sesion -->
-        <a href="<?= APP_ROOT ?>login.php" class="btn">Iniciar Sesión</a>
-        <a href="#" id="toggle-narrador" class="btn">Activar Narrador</a>
+        <a href="<?= APP_ROOT ?>login.php" class="btn2">Iniciar Sesión</a>
+        <a href="#" id="toggle-narrador" class="btn2">Activar Narrador</a>
     <?php }?>
 </div>
 
@@ -39,7 +39,7 @@
 
         // Add event listener to input elements
         document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('focus', (e) => {
+            input.addEventListener('mouseover', (e) => {
                 if (narradorActivo) {
                     readText('Campo de entrada. ' + (e.target.placeholder || ''));
                 }
@@ -51,6 +51,22 @@
                 }
             });
         });
+
+        // Add event listener to textarea elements
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('mouseover', (e) => {
+                if (narradorActivo) {
+                    readText('Campo de entrada. ' + (e.target.placeholder || ''));
+                }
+            });
+
+            textarea.addEventListener('input', (e) => {
+                if (narradorActivo) {
+                    readText('Escribiendo: ' + e.target.value);
+                }
+            });
+        });
+
 
         // Intercept SweetAlert calls
         const originalSwalFire = Swal.fire;

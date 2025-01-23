@@ -25,10 +25,13 @@ function esFavorito($archivo_id, $usuario_id) {
         <!-- Formulario de subida de archivos -->
         <form id="uploadForm" enctype="multipart/form-data" class="mb-4 p-4 bg-white shadow-md rounded">
             <!-- Campo para seleccionar el archivo -->
-            <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.gif" class="mb-2 p-2 border rounded" required />
-
+            <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.gif" class="mb-2 p-2 border rounded" placeholder="para archivos" required />
+            <br>
             <!-- Nuevo campo para la descripción (opcional) -->
-            <textarea name="descripcion" id="descripcionInput" placeholder="Descripción (opcional)" class="mb-2 p-2 border rounded w-full"></textarea>
+            <textarea name="descripcion" id="descripcionInput" placeholder="Descripción (opcional) (máximo 1024)" class="mb-2 p-2 border rounded w-full"></textarea>
+            
+            <!-- colocar a la derecha -->
+            <label id="charCount" class="block mb-2 text-right">0/1024</label>
 
             <!-- Botón de subir -->
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Subir Archivo</button>
@@ -127,6 +130,22 @@ function esFavorito($archivo_id, $usuario_id) {
         return;
     }
 
+    var fileName = fileInput.files[0].name;
+    if (fileName.length > 256) {
+        Swal.fire('Error', 'El nombre del archivo excede 256 caracteres.', 'error');
+        return;
+    }
+    var desc = descripcionInput.value.trim();
+    if (desc.length > 1024) {
+        Swal.fire('Error', 'La descripción excede 1024 caracteres.', 'error');
+        return;
+    }
+    const MAX_BIGINT = 9223372036854775807;
+    if (fileInput.files[0].size > MAX_BIGINT) {
+        Swal.fire('Error', 'El tamaño del archivo excede el límite permitido.', 'error');
+        return;
+    }
+
     var formData = new FormData();
     formData.append('file', fileInput.files[0]);
 
@@ -140,9 +159,13 @@ function esFavorito($archivo_id, $usuario_id) {
     })
     .then(response => response.text())
     .then(result => {
-        Swal.fire('Éxito', result, 'success').then(() => {
-            location.reload();
-        });
+        if (result.startsWith("ERROR:")) {
+            Swal.fire('Error', result, 'error');
+        } else {
+            Swal.fire('Éxito', result, 'success').then(() => {
+                location.reload();
+            });
+        }
     })
     .catch(error => {
         console.error('Error:', error);
@@ -168,6 +191,10 @@ function esFavorito($archivo_id, $usuario_id) {
             return response.json();
         })
         .then(data => {
+            if (data.error) {
+                Swal.fire('Error', data.error, 'error');
+                return;
+            }
             Swal.fire('Éxito', data.message, 'success').then(() => {
                 location.reload();
             });
@@ -199,6 +226,10 @@ function esFavorito($archivo_id, $usuario_id) {
                 })
                 .then(response => response.json())
                 .then(data => {
+                    if (data.error) {
+                        Swal.fire('Error', data.error, 'error');
+                        return;
+                    }
                     Swal.fire('Eliminado', data.message, 'success').then(() => {
                         location.reload();
                     });
@@ -221,6 +252,10 @@ function esFavorito($archivo_id, $usuario_id) {
         })
         .then(response => response.json())
         .then(data => {
+            if (data.error) {
+                Swal.fire('Error', data.error, 'error');
+                return;
+            }
             Swal.fire('Éxito', data.message, 'success').then(() => {
                 location.reload();
             });
@@ -231,6 +266,11 @@ function esFavorito($archivo_id, $usuario_id) {
         });
     }
 
+    var descripcionInput = document.getElementById('descripcionInput');
+    descripcionInput.addEventListener('input', function() {
+        let currentLength = descripcionInput.value.length;
+        document.getElementById('charCount').textContent = currentLength + '/1024';
+    });
     
     </script>
 </body>
