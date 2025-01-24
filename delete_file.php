@@ -39,9 +39,9 @@ try {
         unlink($filePath);
     }
   
-    // Marcar el archivo como eliminado y ponerlo como privado
+    // Marcar el archivo como eliminado y moverlo al usuario de papelera (id = 0)
     $fecha_borrado = date('Y-m-d H:i:s');
-    $stmt = $db->prepare("UPDATE archivos SET fecha_borrado = ?, usuario_borro_id = ?, es_publico = 0 WHERE id = ?");
+    $stmt = $db->prepare("UPDATE archivos SET usuario_subio_id = 0, fecha_borrado = ?, usuario_borro_id = ? WHERE id = ?");
     $stmt->execute([$fecha_borrado, $USUARIO_ID, $id_archivo]);
   
     // Registrar acción en el log

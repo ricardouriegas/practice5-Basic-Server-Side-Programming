@@ -28,7 +28,7 @@
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700">Usuario: *</label>
                     <div class="relative mt-1">
-                        <input type="text" id="username" name="username" required placeholder="Ingrese su nombre de usuario" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+                        <input type="text" id="username" name="username" required maxlength="128" placeholder="Ingrese su nombre de usuario" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
                             <i class="fas fa-user"></i>
                         </span>
@@ -38,7 +38,7 @@
                 <div>
                     <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre: *</label>
                     <div class="relative mt-1">
-                        <input type="text" id="nombre" name="nombre" required placeholder="Ingrese su nombre" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+                        <input type="text" id="nombre" name="nombre" required maxlength="512" placeholder="Ingrese su nombre" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
                             <i class="fas fa-id-card"></i>
                         </span>
@@ -48,7 +48,7 @@
                 <div>
                     <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos: *</label>
                     <div class="relative mt-1">
-                        <input type="text" id="apellidos" name="apellidos" required placeholder="Ingrese sus apellidos" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+                        <input type="text" id="apellidos" name="apellidos" required maxlength="512" placeholder="Ingrese sus apellidos" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
                             <i class="fas fa-id-card-alt"></i>
                         </span>
@@ -83,10 +83,17 @@
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">Contraseña: *</label>
                     <div class="relative mt-1">
-                        <input type="password" id="password" name="password" required placeholder="Ingrese su contraseña" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+                        <input type="password" id="password" name="password" required maxlength="128" placeholder="Ingrese su contraseña" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
                             <i class="fas fa-lock"></i>
                         </span>
+                    </div>
+                    <!-- Barra de fuerza de contraseña -->
+                    <div class="mt-2">
+                        <div class="w-full bg-gray-200 rounded">
+                            <div id="password-strength-bar" class="h-2 bg-red-500 rounded" style="width: 0%;"></div>
+                        </div>
+                        <p id="password-strength-text" class="text-sm mt-1 text-gray-600"></p>
                     </div>
                 </div>
 
@@ -106,6 +113,8 @@
             resultado.innerHTML = ''; // Limpiar mensajes anteriores
 
             var username = document.getElementById('username').value.trim();
+            var nombre = document.getElementById('nombre').value.trim();
+            var apellidos = document.getElementById('apellidos').value.trim();
             var password = document.getElementById('password').value;
             var errores = [];
 
@@ -113,13 +122,41 @@
             if (!/^[a-zA-Z0-9_]+$/.test(username)) {
                 errores.push('El nombre de usuario solo puede contener letras, números y guiones bajos');
             }
+            if (username.length > 128) {
+                errores.push('El nombre de usuario no puede exceder 128 caracteres');
+            }
+
+            // Validación del nombre
+            if (nombre.length > 512) {
+                errores.push('El nombre no puede exceder 512 caracteres');
+            }
+
+            // Validación de los apellidos
+            if (apellidos.length > 512) {
+                errores.push('Los apellidos no pueden exceder 512 caracteres');
+            }
 
             // Validación de la contraseña
             if (password.length < 8) {
                 errores.push('La contraseña debe tener al menos 8 caracteres');
             }
+            if (password.length > 128) {
+                errores.push('La contraseña no puede exceder 128 caracteres');
+            }
             if (!(/[A-Za-z]/.test(password) && /[0-9]/.test(password))) {
                 errores.push('La contraseña debe contener letras y números');
+            }
+
+            // Validación adicional: fuerza de la contraseña
+            var strength = 0;
+            if (password.length >= 8) strength += 1;
+            if (password.match(/[A-Z]/)) strength += 1;
+            if (password.match(/[a-z]/)) strength += 1;
+            if (password.match(/[0-9]/)) strength += 1;
+            if (password.match(/[^A-Za-z0-9]/)) strength += 1;
+            var strengthPercent = (strength / 5) * 100;
+            if (strengthPercent < 40) {
+                errores.push('La contraseña debe ser al menos de fuerza Media');
             }
 
             if (errores.length > 0) {
@@ -152,8 +189,9 @@
                         icon: 'success',
                         title: 'Registro exitoso',
                         text: data.mensaje
+                    }).then(function() {
+                        window.location.href = '<?=APP_ROOT?>login.php';
                     });
-                    // Opcional: Redireccionar o limpiar el formulario
                 }
             })
             .catch(function(error) {
@@ -164,6 +202,33 @@
                     text: 'Ocurrió un error al procesar la solicitud'
                 });
             });
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            var strengthBar = document.getElementById('password-strength-bar');
+            var strengthText = document.getElementById('password-strength-text');
+            var password = this.value;
+            var strength = 0;
+            
+            if (password.length >= 8) strength += 1;
+            if (password.match(/[A-Z]/)) strength += 1;
+            if (password.match(/[a-z]/)) strength += 1;
+            if (password.match(/[0-9]/)) strength += 1;
+            if (password.match(/[^A-Za-z0-9]/)) strength += 1;
+            
+            var strengthPercent = (strength / 5) * 100;
+            strengthBar.style.width = strengthPercent + '%';
+            
+            if (strengthPercent < 40) {
+                strengthBar.className = 'h-2 bg-red-500 rounded';
+                strengthText.textContent = 'Baja';
+            } else if (strengthPercent < 80) {
+                strengthBar.className = 'h-2 bg-yellow-500 rounded';
+                strengthText.textContent = 'Media';
+            } else {
+                strengthBar.className = 'h-2 bg-green-500 rounded';
+                strengthText.textContent = 'Alta';
+            }
         });
     </script>
 

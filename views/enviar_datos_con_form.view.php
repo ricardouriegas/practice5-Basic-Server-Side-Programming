@@ -11,8 +11,6 @@
 </head>
 <body>
 
-    <?php require APP_PATH . "html_parts/info_usuario.php" ?>
-
     <div class="header">
         <h1>Práctica 05</h1>
         <h2>Basic Server Side Programming</h2>

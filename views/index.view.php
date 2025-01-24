@@ -29,7 +29,7 @@ function esFavorito($archivo_id, $usuario_id) {
             <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.gif" class="mb-2 p-2 border rounded" placeholder="para archivos" required />
             <br>
             <!-- Nuevo campo para la descripción (opcional) -->
-            <textarea name="descripcion" id="descripcionInput" placeholder="Descripción (opcional) (máximo 1024)" class="mb-2 p-2 border rounded w-full"></textarea>
+            <textarea name="descripcion" id="descripcionInput" placeholder="Descripción (opcional) (máximo 1024 caracteres)" class="mb-2 p-2 border rounded w-full"></textarea>
             
             <!-- colocar a la derecha -->
             <label id="charCount" class="block mb-2 text-right">0/1024</label>
