@@ -6,9 +6,9 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body class="bg-gray-100 text-gray-800">
-    <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
     <?php require APP_PATH . "html_parts/menu.php"; ?>
 
     <div class="container mx-auto mt-8">
@@ -17,7 +17,10 @@
             
             <div class="mb-4">
                 <input type="text" id="searchTerm" placeholder="Buscar por username o nombre" class="border border-gray-300 rounded-lg p-2 mr-2">
-                <button onclick="searchUsers()" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Buscar</button>
+                <button onclick="searchUsers()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    <i class="fas fa-search mr-2"></i>
+                    Buscar
+                </button>
             </div>
 
             <div id="statusMessage" class="mb-4 text-center text-red-500"></div>
@@ -68,10 +71,18 @@
                 <td class="py-2 px-4 border-b">${user.es_admin ? 'Sí' : 'No'}</td>
                 <td class="py-2 px-4 border-b">${user.activo ? 'Sí' : 'No'}</td>
                 <td class="py-2 px-4 border-b">
-                    <button onclick="toggleAdmin(${user.id})" class="bg-yellow-500 text-white px-2 py-1 rounded-lg">${user.es_admin ? 'Quitar Admin' : 'Hacer Admin'}</button>
-                    <button onclick="resetPassword(${user.id})" class="bg-green-500 text-white px-2 py-1 rounded-lg">Reset Password</button>
-                    <button onclick="toggleActive(${user.id})" class="bg-blue-500 text-white px-2 py-1 rounded-lg">${user.activo ? 'Desactivar' : 'Activar'}</button>
-                    <button onclick="deleteUser(${user.id})" class="bg-red-500 text-white px-2 py-1 rounded-lg">Eliminar</button>
+                    <button onclick="toggleAdmin(${user.id})" class="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600">
+                        <i class="fas fa-user-shield mr-2"></i>${user.es_admin ? 'Quitar Admin' : 'Hacer Admin'}
+                    </button>
+                    <button onclick="resetPassword(${user.id})" class="bg-green-500 text-white px-2 py-1 rounded-lg hover:bg-green-600">
+                        <i class="fas fa-key mr-2"></i>Reset Password
+                    </button>
+                    <button onclick="toggleActive(${user.id})" class="bg-blue-500 text-white px-2 py-1 rounded-lg hover:bg-blue-600">
+                        <i class="${user.activo ? 'fas fa-toggle-on' : 'fas fa-toggle-off'} mr-2"></i>${user.activo ? 'Desactivar' : 'Activar'}
+                    </button>
+                    <button onclick="deleteUser(${user.id})" class="bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-600">
+                        <i class="fas fa-trash-alt mr-2"></i>Eliminar
+                    </button>
                 </td>
             `;
             tbody.appendChild(tr);

@@ -28,7 +28,13 @@
   /* Style the top navigation bar */
   .topnav {
     overflow: hidden;
-    background-color: #333;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.8); /* Darker background */
+    backdrop-filter: blur(20px); /* Reduced blur for a darker effect */
+    position: sticky;  /* or position: fixed */
+    top: 0;
+    width: 100%;
+    z-index: 1000;
   }
   
   /* Style the topnav links */
@@ -111,37 +117,19 @@
 
   /* Estilos para los botones */
 
-/* button */
-/* button */
-.btn2 {
-  margin: 1vh;
-  padding: 15px 40px;
-  border: none;
-  outline: none;
-  color: #FFF;
-  cursor: pointer;
-  position: relative;
-  z-index: 0;
-  border-radius: 12px;
-  transition: background-color 1s ease, color 0.3s ease;
-}
-.btn2::after {
-  content: "";
-  z-index: -1;
-  position: absolute;
-  width: 100%;
-  height: 100%;
+.btn {
   background-color: #333;
-  left: 0;
-  top: 0;
+  color: white;
   border-radius: 15px;
+  padding: 10px 20px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-/* hover */
-.btn2:hover {
-  background-color: #ddd;
-  color: black;
+.btn:hover {
+  transform: scale(1.1);
+  background-color: #555;
 }
+
 
 .error-message {
   color: red;

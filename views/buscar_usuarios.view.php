@@ -1,6 +1,5 @@
 <title><?= htmlspecialchars($tituloPagina) ?></title>
 <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
-<?php require APP_PATH . "html_parts/info_usuario.php"; ?>
 <?php require APP_PATH . "html_parts/menu.php"; ?>
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -9,8 +8,15 @@
     <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h1 class="text-2xl font-bold mb-4 text-center">Buscar Usuarios</h1>
         <form id="form-buscar" class="flex flex-col space-y-4">
-            <input type="text" id="input-buscar" placeholder="Username o nombre" class="p-2 border border-gray-300 rounded" aria-label="Buscar usuario">
-            <button type="submit" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Buscar</button>
+            <div class="relative">
+                <input type="text" id="input-buscar" placeholder="Username o nombre" class="p-2 pl-10 border border-gray-300 rounded w-full" aria-label="Buscar usuario">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <i class="fas fa-search text-gray-400"></i>
+                </span>
+            </div>
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+                Buscar
+            </button>
         </form>
         <div id="resultados" class="mt-4"></div>
     </div>

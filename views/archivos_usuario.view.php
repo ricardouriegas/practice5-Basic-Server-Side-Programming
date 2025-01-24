@@ -9,7 +9,7 @@ function esFavorito($archivo_id, $usuario_id) {
 
 <title><?= htmlspecialchars($tituloPagina) ?></title>
 <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
-<?php require APP_PATH . "html_parts/info_usuario.php"; ?>
+
 <?php require APP_PATH . "html_parts/menu.php"; ?>
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

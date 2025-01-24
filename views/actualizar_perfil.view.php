@@ -5,11 +5,10 @@
     <title><?= htmlspecialchars($tituloPagina) ?></title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> -->
     <script src="<?= APP_ROOT ?>js/config.js"></script>
 </head>
 <body class="bg-gray-100">
-
-    <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
     <?php require APP_PATH . "html_parts/menu.php"; ?>
 
     <div class="container mx-auto mt-10">
@@ -20,23 +19,23 @@
             <!-- Información de ayuda -->
             <div class="mb-6 p-4 bg-blue-50 rounded-md">
                 <p class="text-sm text-blue-600">
-                    Complete el formulario con sus datos personales. Los campos marcados con * son obligatorios.
+                    <i class="fas fa-info-circle"></i> Complete el formulario con sus datos personales. Dejando en blanco los campos que no desea modificar.
                 </p>
             </div>
 
             <form id="formActualizarPerfil" method="POST" class="space-y-4">
                 <div>
-                    <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre: *</label>
+                    <label for="nombre" class="block text-sm font-medium text-gray-700"><i class="fas fa-id-card"></i> Nombre: *</label>
                     <input type="text" id="nombre" name="nombre" value="<?= htmlspecialchars($userData['nombre']) ?>" placeholder="Ingrese su nombre" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                 </div>
 
                 <div>
-                    <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos: *</label>
+                    <label for="apellidos" class="block text-sm font-medium text-gray-700"><i class="fas fa-id-card-alt"></i> Apellidos: *</label>
                     <input type="text" id="apellidos" name="apellidos" value="<?= htmlspecialchars($userData['apellidos']) ?>" placeholder="Ingrese sus apellidos" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                 </div>
 
                 <div>
-                    <label for="genero" class="block text-sm font-medium text-gray-700">Género: *</label>
+                    <label for="genero" class="block text-sm font-medium text-gray-700"><i class="fas fa-venus-mars"></i> Género: *</label>
                     <select id="genero" name="genero" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                         <option value="">Seleccione su género</option>
                         <option value="M" <?= $userData['genero'] == 'M' ? 'selected' : '' ?>>Masculino</option>
@@ -46,7 +45,7 @@
                 </div>
 
                 <div>
-                    <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento: *</label>
+                    <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento: *</label>
                     <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="<?= htmlspecialchars($userData['fecha_nacimiento']) ?>" placeholder="Seleccione su fecha de nacimiento" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                 </div>
 
@@ -74,12 +73,12 @@
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    resultado.innerHTML = '<p class="text-red-500">' + data.error + '</p>';
+                    resultado.innerHTML = '<p class="text-red-500"><i class="fas fa-exclamation-circle"></i> ' + data.error + '</p>';
                 } else {
-                    resultado.innerHTML = '<p class="text-green-500">' + data.mensaje + '</p>';
+                    resultado.innerHTML = '<p class="text-green-500"><i class="fas fa-check-circle"></i> ' + data.mensaje + '</p>';
                 }
             }).catch(error => {
-                resultado.innerHTML = '<p class="text-red-500">Error de conexión: ' + error + '</p>';
+                resultado.innerHTML = '<p class="text-red-500"><i class="fas fa-exclamation-circle"></i> Error de conexión: ' + error + '</p>';
             });
         });
     });

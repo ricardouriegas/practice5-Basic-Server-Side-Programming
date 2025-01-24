@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="<?=APP_ROOT?>css/style.css" rel="stylesheet" type="text/css" /> 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <title>Manejador de Archivos</title>
     <script src="<?=APP_ROOT?>js/config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -32,21 +33,25 @@
                 <?php endif; ?>
 
                 <div class="mb-6 p-4 bg-blue-50 rounded-md">
+                    
                     <p class="text-sm text-blue-600">
-                        Complete el formulario con sus datos personales. 
-                    </p>
-                    <p class="text-sm text-blue-600">
-                        Los campos marcados con * son obligatorios.
+                        <i class="fas fa-info-circle"></i> Complete el formulario con sus datos personales. 
                     </p>
                 </div>
                 <form action="<?=APP_ROOT?>do_login.php" method="POST" class="mt-4" onsubmit="return validateForm()">
                     <div class="mb-4">
                         <label for="txt-username" class="block text-gray-700">Usuario:</label>
-                        <input type="text" name="username" id="txt-username" placeholder="Ingrese su nombre de usuario" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
+                        <div class="relative">
+                            <input type="text" name="username" id="txt-username" placeholder="Ingrese su nombre de usuario" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300 pl-10" />
+                            <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
+                        </div>
                     </div>
                     <div class="mb-4">
                         <label for="txt-password" class="block text-gray-700">Contraseña:</label>
-                        <input type="password" name="password" id="txt-password" placeholder="Ingrese su contraseña" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
+                        <div class="relative">
+                            <input type="password" name="password" id="txt-password" placeholder="Ingrese su contraseña" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300 pl-10" />
+                            <i class="fas fa-lock absolute left-3 top-3 text-gray-400"></i>
+                        </div>
                     </div>
                     <div class="mb-4">
                         <button type="submit" class="w-full px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Entrar</button>
@@ -60,7 +65,7 @@
                 <h2 class="text-2xl font-bold text-gray-900">Registro</h2>
                 <div class="mb-6 p-4 bg-blue-50 rounded-md">
                     <p class="text-sm text-blue-600 mt-2">
-                        Para poder acceder a los servicios de esta aplicación, debe tener una cuenta.
+                        <i class="fas fa-info-circle"></i> Para poder acceder a los servicios de esta aplicación, debe tener una cuenta.
                     </p>
                     <p class="text-sm text-blue-600 mt-2">
                         Si usted todavía no tiene una cuenta, haga click en el siguiente botón para registrarse.

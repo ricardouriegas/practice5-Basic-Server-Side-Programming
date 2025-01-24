@@ -1,16 +1,17 @@
 <div style="text-align: right;" class="top-info">
-    <span>Bienvenido(a) </span>
-    <strong><?= $USUARIO_AUTENTICADO ? $USUARIO_NOMBRE_COMPLETO : "USUARIO" ?></strong>
-    <span>|</span>
+    <!-- <span>Bienvenido(a) </span> -->
+    <!-- <strong><?= $USUARIO_AUTENTICADO ? $USUARIO_NOMBRE_COMPLETO : "USUARIO" ?></strong> -->
+    <!-- <span>|</span> -->
     <?php if ($USUARIO_AUTENTICADO){ ?>
-        <span><a href="<?=APP_ROOT?>logout.php" class="btn2">Cerrar Sesion</a></span>
-        <span><a href="<?= APP_ROOT ?>actualizar_perfil.php"class="btn2">Actualizar Perfil</a></span>
-        <span><a href="<?= APP_ROOT ?>cambiar_password.php" class="btn2">Actualizar Contraseña</a></span>
-        <span><a href="#" id="toggle-narrador" class="btn2">Activar Narrador</a></span>
+        <span><a href="<?=APP_ROOT?>logout.php" class="btn">Cerrar Sesión</a></span>
+        <span><a href="<?= APP_ROOT ?>actualizar_perfil.php" class="btn">Actualizar Perfil</a></span>
+        <span><a href="<?= APP_ROOT ?>cambiar_password.php" class="btn">Actualizar Contraseña</a></span>
+        <span><a href="#" id="toggle-narrador" class="btn">Activar Narrador</a></span>
     <?php }else{ ?>
         <!-- link a iniciar sesion -->
-        <a href="<?= APP_ROOT ?>login.php" class="btn2">Iniciar Sesión</a>
-        <a href="#" id="toggle-narrador" class="btn2">Activar Narrador</a>
+        <a href="<?= APP_ROOT ?>login.php" class="btn">Iniciar Sesión</a>
+        |
+        <a href="#" id="toggle-narrador" class="btn">Activar Narrador</a>
     <?php }?>
 </div>
 
@@ -107,4 +108,24 @@
 
     // Set initial state of the button
     toggleNarradorLink.textContent = narradorActivo ? 'Desactivar Narrador' : 'Activar Narrador';
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+<script>
+    
+    const options = {
+        bottom: '2%', // default: '32px'
+        right: '2%', // default: '32px'
+        left: 'unset', // default: 'unset'
+        time: '1s', // default: '0.3s'
+        mixColor: '#fff', // default: '#fff'
+        backgroundColor: '#fff',  // default: '#fff'
+        saveInCookies: true, // default: true,
+        label: '🌓', // default: ''
+    }
+
+const darkmode = new Darkmode(options);
+darkmode.showWidget();
+
+window.addEventListener('load', addDarkmodeWidget);
 </script>

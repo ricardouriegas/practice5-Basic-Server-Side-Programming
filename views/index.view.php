@@ -14,9 +14,10 @@ function esFavorito($archivo_id, $usuario_id) {
     <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body class="bg-gray-100 text-gray-800">
-    <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
+    
     <?php require APP_PATH . "html_parts/menu.php"; ?>
 
     <div class="container mx-auto p-4">
@@ -34,7 +35,7 @@ function esFavorito($archivo_id, $usuario_id) {
             <label id="charCount" class="block mb-2 text-right">0/1024</label>
 
             <!-- Botón de subir -->
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Subir Archivo</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-upload mr-2"></i>Subir Archivo</button>
         </form>
 
         <!-- Filtros de año y mes -->
@@ -53,7 +54,9 @@ function esFavorito($archivo_id, $usuario_id) {
                 <?php endfor; ?>
             </select>
 
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Filtrar</button>
+            <button type="submit" class="block mb-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                <i class="fas fa-search mr-2"></i>
+                Filtrar</button>
         </form>
 
         <!-- Tabla de archivos -->
@@ -94,14 +97,14 @@ function esFavorito($archivo_id, $usuario_id) {
                         <?= number_format($archivo['tamaño'] / 1024, 2) ?> KB
                     </td>
                     <td class="py-2 px-4 border-b">
-                        <button onclick="togglePublic(<?= $archivo['id'] ?>)" class="bg-blue-500 text-white px-2 py-1 rounded" <?= $estaBorrado ? 'disabled' : '' ?>>
-                            <?= $archivo['es_publico'] ? 'Hacer Privado' : 'Hacer Público' ?>
+                        <button onclick="togglePublic(<?= $archivo['id'] ?>)" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 <?= $estaBorrado ? 'disabled' : '' ?>">
+                            <i class="fas fa-globe mr-2"></i><?= $archivo['es_publico'] ? 'Hacer Privado' : 'Hacer Público' ?>
                         </button>
-                        <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded" <?= $estaBorrado ? 'disabled' : '' ?>>
-                            Eliminar
+                        <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700 <?= $estaBorrado ? 'disabled' : '' ?>">
+                            <i class="fas fa-trash-alt mr-2"></i>Eliminar
                         </button>
-                        <button onclick="toggleFavorite(<?= $archivo['id'] ?>)" class="bg-yellow-500 text-white px-2 py-1 rounded" <?= $estaBorrado ? 'disabled' : '' ?>>
-                            <?= esFavorito($archivo['id'], $USUARIO_ID) ? 'Quitar Favorito' : 'Marcar Favorito' ?>
+                        <button onclick="toggleFavorite(<?= $archivo['id'] ?>)" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-700 <?= $estaBorrado ? 'disabled' : '' ?>">
+                            <i class="fas fa-star mr-2"></i><?= esFavorito($archivo['id'], $USUARIO_ID) ? 'Quitar Favorito' : 'Marcar Favorito' ?>
                         </button>
                     </td>
                 </tr>

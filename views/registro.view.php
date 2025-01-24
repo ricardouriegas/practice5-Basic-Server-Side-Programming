@@ -5,6 +5,7 @@
     <title><?= htmlspecialchars($tituloPagina) ?></title>
     <link href="<?=APP_ROOT?>css/style.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="<?=APP_ROOT?>js/config.js"></script>
 </head>
@@ -19,44 +20,74 @@
             <!-- Información de ayuda -->
             <div class="mb-6 p-4 bg-blue-50 rounded-md">
                 <p class="text-sm text-blue-600">
-                    Complete el formulario con sus datos personales. Los campos marcados con * son obligatorios.
+                    <i class="fas fa-info-circle"></i> Complete el formulario con sus datos personales. Los campos marcados con * son obligatorios.
                 </p>
             </div>
 
             <form id="formRegistro" method="POST" class="space-y-4">
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700">Usuario: *</label>
-                    <input type="text" id="username" name="username" required placeholder="Ingrese su nombre de usuario" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div class="relative mt-1">
+                        <input type="text" id="username" name="username" required placeholder="Ingrese su nombre de usuario" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </div>
                 </div>
 
                 <div>
                     <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre: *</label>
-                    <input type="text" id="nombre" name="nombre" required placeholder="Ingrese su nombre" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div class="relative mt-1">
+                        <input type="text" id="nombre" name="nombre" required placeholder="Ingrese su nombre" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                            <i class="fas fa-id-card"></i>
+                        </span>
+                    </div>
                 </div>
 
                 <div>
                     <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos: *</label>
-                    <input type="text" id="apellidos" name="apellidos" required placeholder="Ingrese sus apellidos" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div class="relative mt-1">
+                        <input type="text" id="apellidos" name="apellidos" required placeholder="Ingrese sus apellidos" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                            <i class="fas fa-id-card-alt"></i>
+                        </span>
+                    </div>
                 </div>
 
                 <div>
                     <label for="genero" class="block text-sm font-medium text-gray-700">Género: *</label>
-                    <select id="genero" name="genero" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="">Seleccione su género</option>
-                        <option value="M">Masculino</option>
-                        <option value="F">Femenino</option>
-                        <option value="O">Otro</option>
-                    </select>
+                    <div class="relative mt-1">
+                        <select id="genero" name="genero" required class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+                            <option value="">Seleccione su género</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                            <option value="O">Otro</option>
+                        </select>
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                            <i class="fas fa-venus-mars"></i>
+                        </span>
+                    </div>
                 </div>
 
                 <div>
                     <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento: *</label>
-                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div class="relative mt-1">
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                            <i class="fas fa-calendar-alt"></i>
+                        </span>
+                    </div>
                 </div>
 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">Contraseña: *</label>
-                    <input type="password" id="password" name="password" required placeholder="Ingrese su contraseña" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div class="relative mt-1">
+                        <input type="password" id="password" name="password" required placeholder="Ingrese su contraseña" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
                 </div>
 
                 <div>

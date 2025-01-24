@@ -7,10 +7,9 @@
     <link href="<?= APP_ROOT ?>css/style.css" rel="stylesheet" type="text/css">
     <script src="<?= APP_ROOT ?>js/config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
 </head>
 <body class="bg-gray-100">
-
-    <?php require APP_PATH . "html_parts/info_usuario.php"; ?>
 
     <?php require APP_PATH . "html_parts/menu.php"; ?>
 
@@ -21,27 +20,35 @@
             <!-- Información de ayuda -->
             <div class="mb-6 p-4 bg-blue-50 rounded-md">
                 <p class="text-sm text-blue-600">
-                    Complete el formulario con sus datos personales. Los campos marcados con * son obligatorios.
+                    <i class="fas fa-info-circle"></i> Complete el formulario con sus datos personales. Los campos marcados con * son obligatorios.
                 </p>
             </div>
 
             <form id="formCambiarPassword" method="POST" class="space-y-4">
                 <div>
-                    <label for="password_actual" class="block text-sm font-medium text-gray-700">Contraseña Actual: <span class="text-red-500">*</span></label>
+                    <label for="password_actual" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-lock"></i> Contraseña Actual: <span class="text-red-500">*</span>
+                    </label>
                     <input type="password" id="password_actual" name="password_actual" placeholder="Ingrese su contraseña actual" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
                 <div>
-                    <label for="nuevo_password" class="block text-sm font-medium text-gray-700">Nueva Contraseña: <span class="text-red-500">*</span></label>
+                    <label for="nuevo_password" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-key"></i> Nueva Contraseña: <span class="text-red-500">*</span>
+                    </label>
                     <input type="password" id="nuevo_password" name="nuevo_password" placeholder="Ingrese su nueva contraseña" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
                 <div>
-                    <label for="confirmar_password" class="block text-sm font-medium text-gray-700">Confirmar Nueva Contraseña: <span class="text-red-500">*</span></label>
+                    <label for="confirmar_password" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-key"></i> Confirmar Nueva Contraseña: <span class="text-red-500">*</span>
+                    </label>
                     <input type="password" id="confirmar_password" name="confirmar_password" placeholder="Confirme su nueva contraseña" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
 
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Cambiar Contraseña</button>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Cambiar Contraseña
+                </button>
             </form>
             <div id="resultado" class="mt-4"></div>
         </div>
