@@ -29,7 +29,7 @@ function esFavorito($archivo_id, $usuario_id) {
             <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.gif" class="mb-2 p-2 border rounded" placeholder="para archivos" required />
             <br>
             <!-- Nuevo campo para la descripción (opcional) -->
-            <textarea name="descripcion" id="descripcionInput" placeholder="Descripción (opcional) (máximo 1024 caracteres)" class="mb-2 p-2 border rounded w-full"></textarea>
+            <textarea name="descripcion" id="descripcionInput" placeholder="Descripción (opcional) (máximo 1024 caracteres)" class="mb-2 p-2 border rounded w-full h-40"></textarea>
             
             <!-- colocar a la derecha -->
             <label id="charCount" class="block mb-2 text-right">0/1024</label>
@@ -39,24 +39,29 @@ function esFavorito($archivo_id, $usuario_id) {
         </form>
 
         <!-- Filtros de año y mes -->
-        <form method="get" action="" class="mb-4 p-4 bg-white shadow-md rounded">
-            <label for="year" class="block mb-2">Año:</label>
-            <select name="year" id="year" class="mb-2 p-2 border rounded">
-                <?php for ($y = date('Y'); $y >= date('Y') - 5; $y--): ?>
-                    <option value="<?= $y ?>" <?= $y == $year ? 'selected' : '' ?>><?= $y ?></option>
-                <?php endfor; ?>
-            </select>
+        <form method="get" action="" class="mb-4 p-4 bg-white shadow-md rounded flex items-center space-x-4">
+            <div class="flex items-center">
+                <label for="year" class="mr-2">Año:</label>
+                <select name="year" id="year" class="p-2 border rounded">
+                    <?php for ($y = date('Y'); $y >= date('Y') - 5; $y--): ?>
+                        <option value="<?= $y ?>" <?= $y == $year ? 'selected' : '' ?>><?= $y ?></option>
+                    <?php endfor; ?>
+                </select>
+            </div>
 
-            <label for="month" class="block mb-2">Mes:</label>
-            <select name="month" id="month" class="mb-2 p-2 border rounded">
-                <?php for ($m = 1; $m <= 12; $m++): ?>
-                    <option value="<?= $m ?>" <?= $m == $month ? 'selected' : '' ?>><?= $m ?></option>
-                <?php endfor; ?>
-            </select>
+            <div class="flex items-center">
+                <label for="month" class="mr-2">Mes:</label>
+                <select name="month" id="month" class="p-2 border rounded">
+                    <?php for ($m = 1; $m <= 12; $m++): ?>
+                        <option value="<?= $m ?>" <?= $m == $month ? 'selected' : '' ?>><?= $m ?></option>
+                    <?php endfor; ?>
+                </select>
+            </div>
 
-            <button type="submit" class="block mb-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center">
                 <i class="fas fa-search mr-2"></i>
-                Filtrar</button>
+                Filtrar
+            </button>
         </form>
 
         <!-- Tabla de archivos -->
@@ -76,6 +81,10 @@ function esFavorito($archivo_id, $usuario_id) {
                 <?php
                     $estaBorrado = !is_null($archivo['fecha_borrado']);
                     $claseFila = $estaBorrado ? 'bg-gray-300 text-gray-500' : '';
+                    $descripcion = htmlspecialchars($archivo['descripcion'] ?? '');
+                    $maxLength = 100;
+                    $isLong = strlen($descripcion) > $maxLength;
+                    $shortDesc = $isLong ? substr($descripcion, 0, $maxLength) . '...' : $descripcion;
                 ?>
                 <tr class="<?= $claseFila ?>">
                     <td class="py-2 px-4 border-b">
@@ -88,7 +97,10 @@ function esFavorito($archivo_id, $usuario_id) {
                         <?php endif; ?>
                     </td>
                     <td class="py-2 px-4 border-b">
-                        <?= htmlspecialchars($archivo['descripcion'] ?? '') ?>
+                        <?= $shortDesc ?>
+                        <?php if ($isLong): ?>
+                            <a href="#" onclick="mostrarDescripcion('<?= addslashes($descripcion) ?>'); return false;" class="text-blue-500 hover:underline ml-2">más</a>
+                        <?php endif; ?>
                     </td>
                     <td class="py-2 px-4 border-b">
                         <?= htmlspecialchars($archivo['fecha_subido']) ?>
@@ -100,11 +112,11 @@ function esFavorito($archivo_id, $usuario_id) {
                         <button onclick="togglePublic(<?= $archivo['id'] ?>)" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 <?= $estaBorrado ? 'disabled' : '' ?>">
                             <i class="fas fa-globe mr-2"></i><?= $archivo['es_publico'] ? 'Hacer Privado' : 'Hacer Público' ?>
                         </button>
-                        <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700 <?= $estaBorrado ? 'disabled' : '' ?>">
-                            <i class="fas fa-trash-alt mr-2"></i>Eliminar
-                        </button>
                         <button onclick="toggleFavorite(<?= $archivo['id'] ?>)" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-700 <?= $estaBorrado ? 'disabled' : '' ?>">
                             <i class="fas fa-star mr-2"></i><?= esFavorito($archivo['id'], $USUARIO_ID) ? 'Quitar Favorito' : 'Marcar Favorito' ?>
+                        </button>
+                        <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700 <?= $estaBorrado ? 'disabled' : '' ?>">
+                            <i class="fas fa-trash-alt mr-2"></i>Eliminar
                         </button>
                     </td>
                 </tr>
@@ -274,6 +286,15 @@ function esFavorito($archivo_id, $usuario_id) {
         let currentLength = descripcionInput.value.length;
         document.getElementById('charCount').textContent = currentLength + '/1024';
     });
+
+    function mostrarDescripcion(desc) {
+        Swal.fire({
+            title: 'Descripción',
+            text: desc,
+            icon: 'info',
+            confirmButtonText: 'Cerrar'
+        });
+    }
     
     </script>
 </body>
