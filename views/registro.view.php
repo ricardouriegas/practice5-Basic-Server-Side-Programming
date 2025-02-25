@@ -182,7 +182,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: data.error
+                        html: data.error
                     });
                 } else {
                     Swal.fire({

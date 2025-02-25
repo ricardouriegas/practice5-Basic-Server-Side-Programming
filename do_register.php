@@ -29,11 +29,25 @@ if (!$username || !strlen(trim($username))) {
 // Validar el nombre
 if (!$nombre || !strlen(trim($nombre))) {
     $errores[] = "El nombre es obligatorio";
+} else {
+    if (strlen($nombre) < 2) {
+        $errores[] = "El nombre debe tener al menos 2 caracteres";
+    }
+    if (!preg_match('/^[a-záéíóúñA-ZÁÉÍÓÚÑ\s]+$/', $nombre)) {
+        $errores[] = "El nombre solo puede contener letras y espacios";
+    }
 }
 
 // Validar apellidos
 if (!$apellidos || !strlen(trim($apellidos))) {
     $errores[] = "Los apellidos son obligatorios";
+} else {
+    if (strlen($apellidos) < 2) {
+        $errores[] = "Los apellidos deben tener al menos 2 caracteres";
+    }
+    if (!preg_match('/^[a-záéíóúñA-ZÁÉÍÓÚÑ\s]+$/', $apellidos)) {
+        $errores[] = "Los apellidos solo pueden contener letras y espacios";
+    }
 }
 
 // Validar género
@@ -44,6 +58,20 @@ if (!$genero || !in_array($genero, ['M', 'F', 'O'])) {
 // Validar fecha de nacimiento
 if (!$fecha_nacimiento || !DateTime::createFromFormat('Y-m-d', $fecha_nacimiento)) {
     $errores[] = "La fecha de nacimiento es obligatoria y debe tener el formato AAAA-MM-DD";
+} else {
+    $fecha_nac = new DateTime($fecha_nacimiento);
+    $hoy = new DateTime();
+    $edad = $hoy->diff($fecha_nac)->y;
+    
+    if ($edad < 15) {
+        $errores[] = "Debes ser mayor de 15 años para registrarte";
+    }
+    if ($edad > 120) {
+        $errores[] = "La fecha de nacimiento no es válida";
+    }
+    if ($fecha_nac > $hoy) {
+        $errores[] = "La fecha de nacimiento no puede ser futura";
+    }
 }
 
 // Validar el password
@@ -59,7 +87,7 @@ if (!$password || !strlen(trim($password))) {
 }
 
 if ($errores) {
-    echo json_encode(["error" => implode(", ", $errores)]);
+    echo json_encode(["error" => implode("<br>", $errores)]);
     exit();
 }
 
