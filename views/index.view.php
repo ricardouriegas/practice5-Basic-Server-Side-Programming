@@ -41,11 +41,11 @@ function esFavorito($archivo_id, $usuario_id) {
         </form>
 
         <!-- Filtros de año y mes -->
-        <h3 class="text-2x1 font-bold ,b-4">Filtrar por Fecha</h3>
+        <h3 class="text-2xl font-bold mb-4">Filtrar por Fecha</h3>
         <form method="get" action="" class="mb-4 p-4 bg-white shadow-md rounded flex items-center space-x-4">
 
             <div class="flex items-center">
-                <label for="year" class="mr-2">Año:</label>
+                <label for="year" class="mr-2 font-semibold">Año:</label>
                 <select name="year" id="year" class="p-2 border rounded">
                     <?php for ($y = date('Y'); $y >= date('Y') - 5; $y--): ?>
                         <option value="<?= $y ?>" <?= $y == $year ? 'selected' : '' ?>><?= $y ?></option>
@@ -54,7 +54,7 @@ function esFavorito($archivo_id, $usuario_id) {
             </div>
 
             <div class="flex items-center">
-                <label for="month" class="mr-2">Mes:</label>
+                <label for="month" class="mr-2 font-semibold">Mes:</label>
                 <select name="month" id="month" class="p-2 border rounded">
                     <?php for ($m = 1; $m <= 12; $m++): ?>
                         <option value="<?= $m ?>" <?= $m == $month ? 'selected' : '' ?>><?= $m ?></option>
