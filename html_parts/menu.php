@@ -5,11 +5,10 @@
     <?php if ($USUARIO_AUTENTICADO): ?>
         <!-- <a href="<?=APP_ROOT?>">Inicio</a> -->
         <a href="<?=APP_ROOT?>archivos_usuario.php"><i class="fas fa-folder mr-2"></i> Mis Archivos</a>
-        <a href="<?=APP_ROOT?>archivos_favoritos.php"><i class="fas fa-star mr-2"></i> Archivos Favoritos</a>
         <a href="<?=APP_ROOT?>buscar_usuarios.php"><i class="fas fa-search mr-2"></i> Buscar Usuarios</a>
+        <a href="<?=APP_ROOT?>archivos_favoritos.php"><i class="fas fa-star mr-2"></i> Archivos Favoritos</a>
 
         <!-- icono de perfil para ir a las opciones de perfil -->
-        
         <a href="<?=APP_ROOT?>account.php" style="float:right"><i class="fas fa-user mr-2"></i> Cuenta</a>
         <!-- <a href="#" id="toggle-narrador" style="float:right">Activar Narrador</a> -->
     <?php else: ?>
@@ -29,6 +28,9 @@
     <?php }?>
         
     <a href="#" id="toggle-narrador" style="float:right"><i class="fas fa-microphone mr-2"></i> Activar Narrador</a>
+    <a href="#" id="help-link"  class="float:right">
+            <i class="fas fa-info-circle mr-2"></i> Contacto
+        </a> 
     <div class="inner-header flex"></div>
 
     <div>

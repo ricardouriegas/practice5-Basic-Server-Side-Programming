@@ -14,11 +14,6 @@
         <div class="bg-white p-8 rounded shadow-md w-full max-w-xl">
             <h1 class="text-2xl font-bold mb-4 text-center">Opciones de tu Cuenta</h1>
             <ul class="account-options flex flex-col space-y-6 items-center mt-4">
-                <!-- <li>
-                    <a href="#" id="help-link" class="w-full tAyudaext-center px-4 py-2 border border-yellow-500 text-yellow-500 rounded hover:bg-yellow-500 hover:text-white transition duration-200">
-                        <i class="fas fa-info-circle mr-2"></i> Contacto
-                    </a> 
-                </li> -->
                 <li>
                     <a href="<?= APP_ROOT ?>actualizar_perfil.php" class="w-full text-center px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-500 hover:text-white transition duration-200">
                         <i class="fas fa-user-edit mr-2"></i> Actualizar Perfil
