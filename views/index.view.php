@@ -23,23 +23,27 @@ function esFavorito($archivo_id, $usuario_id) {
     <div class="container mx-auto p-4">
         <h2 class="text-2xl font-bold mb-4"><?= htmlspecialchars($tituloPagina) ?></h2>
 
-        <!-- Formulario de subida de archivos -->
-        <form id="uploadForm" enctype="multipart/form-data" class="mb-4 p-4 bg-white shadow-md rounded">
-            <!-- Campo para seleccionar el archivo -->
-            <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.gif" class="mb-2 p-2 border rounded" placeholder="para archivos" required />
-            <br>
-            <!-- Nuevo campo para la descripción (opcional) -->
-            <textarea name="descripcion" id="descripcionInput" placeholder="Descripción (opcional) (máximo 1024 caracteres)" class="mb-2 p-2 border rounded w-full h-40"></textarea>
-            
-            <!-- colocar a la derecha -->
-            <label id="charCount" class="block mb-2 text-right">0/1024</label>
-
-            <!-- Botón de subir -->
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-upload mr-2"></i>Subir Archivo</button>
+        <h3 class="text-2xl font-bold mb-4">Subir Archivo</h3>
+        <!-- Actualización del formulario de subida de archivos -->
+        <form id="uploadForm" enctype="multipart/form-data" class="mb-4 p-4 bg-white shadow-md rounded space-y-4">
+            <div>
+                <label for="fileInput" class="block mb-1 font-semibold">Archivo:</label>
+                <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.gif" class="w-full p-2 border rounded" required />
+            </div>
+            <div>
+                <label for="descripcionInput" class="block mb-1 font-semibold">Descripción (opcional):</label>
+                <textarea name="descripcion" id="descripcionInput" placeholder="Máximo 1024 caracteres" class="w-full p-2 border rounded h-40"></textarea>
+                <label id="charCount" class="block mt-1 text-right text-sm text-gray-600">0/1024</label>
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center justify-center">
+                <i class="fas fa-upload mr-2"></i>Subir Archivo
+            </button>
         </form>
 
         <!-- Filtros de año y mes -->
+        <h3 class="text-2x1 font-bold ,b-4">Filtrar por Fecha</h3>
         <form method="get" action="" class="mb-4 p-4 bg-white shadow-md rounded flex items-center space-x-4">
+
             <div class="flex items-center">
                 <label for="year" class="mr-2">Año:</label>
                 <select name="year" id="year" class="p-2 border rounded">
@@ -109,15 +113,18 @@ function esFavorito($archivo_id, $usuario_id) {
                         <?= number_format($archivo['tamaño'] / 1024, 2) ?> KB
                     </td>
                     <td class="py-2 px-4 border-b">
-                        <button onclick="togglePublic(<?= $archivo['id'] ?>)" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 <?= $estaBorrado ? 'disabled' : '' ?>">
-                            <i class="fas fa-globe mr-2"></i><?= $archivo['es_publico'] ? 'Hacer Privado' : 'Hacer Público' ?>
-                        </button>
-                        <button onclick="toggleFavorite(<?= $archivo['id'] ?>)" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-700 <?= $estaBorrado ? 'disabled' : '' ?>">
-                            <i class="fas fa-star mr-2"></i><?= esFavorito($archivo['id'], $USUARIO_ID) ? 'Quitar Favorito' : 'Marcar Favorito' ?>
-                        </button>
-                        <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700 <?= $estaBorrado ? 'disabled' : '' ?>">
-                            <i class="fas fa-trash-alt mr-2"></i>Eliminar
-                        </button>
+                        <!-- Agrupar botones de acción en un contenedor flexible -->
+                        <div class="flex justify-center space-x-2">
+                            <button onclick="togglePublic(<?= $archivo['id'] ?>)" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 <?= $estaBorrado ? 'disabled' : '' ?>">
+                                <i class="fas fa-globe mr-2"></i><?= $archivo['es_publico'] ? 'Hacer Privado' : 'Hacer Público' ?>
+                            </button>
+                            <button onclick="toggleFavorite(<?= $archivo['id'] ?>)" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-700 <?= $estaBorrado ? 'disabled' : '' ?>">
+                                <i class="fas fa-star mr-2"></i><?= esFavorito($archivo['id'], $USUARIO_ID) ? 'Quitar Favorito' : 'Marcar Favorito' ?>
+                            </button>
+                            <button onclick="deleteFile(<?= $archivo['id'] ?>)" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700 <?= $estaBorrado ? 'disabled' : '' ?>">
+                                <i class="fas fa-trash-alt mr-2"></i>Eliminar
+                            </button>
+                        </div>
                     </td>
                 </tr>
                 <?php endforeach; ?>
